@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaye.rescuebackend.mapper.CompanyMapper">
+
+    <resultMap id="BaseResultMap" type="com.xiaye.rescuebackend.model.Company">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="credit" column="credit" jdbcType="BIGINT"/>
+            <result property="identity" column="identity" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,code,
+        credit,identity
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from company
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from company
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.Company" useGeneratedKeys="true">
+        insert into company
+        ( id,name,code
+        ,credit,identity)
+        values (#{id,jdbcType=BIGINT},#{name,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR}
+        ,#{credit,jdbcType=BIGINT},#{identity,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.Company" useGeneratedKeys="true">
+        insert into company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="code != null">code,</if>
+                <if test="credit != null">credit,</if>
+                <if test="identity != null">identity,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+                <if test="code != null">#{code,jdbcType=VARCHAR},</if>
+                <if test="credit != null">#{credit,jdbcType=BIGINT},</if>
+                <if test="identity != null">#{identity,jdbcType=BIGINT},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.xiaye.rescuebackend.model.Company">
+        update company
+        <set>
+                <if test="name != null">
+                    name = #{name,jdbcType=VARCHAR},
+                </if>
+                <if test="code != null">
+                    code = #{code,jdbcType=VARCHAR},
+                </if>
+                <if test="credit != null">
+                    credit = #{credit,jdbcType=BIGINT},
+                </if>
+                <if test="identity != null">
+                    identity = #{identity,jdbcType=BIGINT},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.xiaye.rescuebackend.model.Company">
+        update company
+        set 
+            name =  #{name,jdbcType=VARCHAR},
+            code =  #{code,jdbcType=VARCHAR},
+            credit =  #{credit,jdbcType=BIGINT},
+            identity =  #{identity,jdbcType=BIGINT}
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+</mapper>

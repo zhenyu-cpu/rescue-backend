@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: rescue-backend
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/rescue
+    username: root
+    password: 123456
+# 运行端口
+server:
+  port: 3088
+
+management:
+  server:
+    port: 8081
+  endpoint:
+    health:
+      show-details: always
