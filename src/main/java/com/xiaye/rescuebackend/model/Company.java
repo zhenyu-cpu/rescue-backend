@@ -17,27 +17,31 @@ public class Company implements Serializable {
     /**
      * 
      */
-    @TableId
+    @TableId(value = "id")
     private Long id;
 
     /**
      * 
      */
+    @TableField(value = "name")
     private String name;
 
     /**
      * 
      */
+    @TableField(value = "code")
     private String code;
 
     /**
      * 
      */
+    @TableField(value = "credit")
     private Long credit;
 
     /**
      * 
      */
+    @TableField(value = "identity")
     private Long identity;
 
     @TableField(exist = false)

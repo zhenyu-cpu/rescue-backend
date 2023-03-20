@@ -5,7 +5,7 @@ import com.xiaye.rescuebackend.model.Company;
 /**
 * @author zhenyu
 * @description 针对表【company(公司表)】的数据库操作Mapper
-* @createDate 2023-03-19 21:51:27
+* @createDate 2023-03-20 22:48:41
 * @Entity com.xiaye.rescuebackend.model.Company
 */
 public interface CompanyMapper {

@@ -6,11 +6,11 @@
 
     <resultMap id="BaseResultMap" type="com.xiaye.rescuebackend.model.News">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="companyId" column="company_id" jdbcType="BIGINT"/>
+            <result property="company_id" column="company_id" jdbcType="BIGINT"/>
             <result property="title" column="title" jdbcType="VARCHAR"/>
             <result property="context" column="context" jdbcType="VARCHAR"/>
             <result property="date" column="date" jdbcType="TIMESTAMP"/>
-            <result property="isReaded" column="is_readed" jdbcType="VARCHAR"/>
+            <result property="is_readed" column="is_readed" jdbcType="VARCHAR"/>
             <result property="type" column="type" jdbcType="BIGINT"/>
     </resultMap>
 
@@ -36,36 +36,36 @@
         ( id,company_id,title
         ,context,date,is_readed
         ,type)
-        values (#{id,jdbcType=BIGINT},#{companyId,jdbcType=BIGINT},#{title,jdbcType=VARCHAR}
-        ,#{context,jdbcType=VARCHAR},#{date,jdbcType=TIMESTAMP},#{isReaded,jdbcType=VARCHAR}
+        values (#{id,jdbcType=BIGINT},#{company_id,jdbcType=BIGINT},#{title,jdbcType=VARCHAR}
+        ,#{context,jdbcType=VARCHAR},#{date,jdbcType=TIMESTAMP},#{is_readed,jdbcType=VARCHAR}
         ,#{type,jdbcType=BIGINT})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.News" useGeneratedKeys="true">
         insert into news
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
-                <if test="companyId != null">company_id,</if>
+                <if test="company_id != null">company_id,</if>
                 <if test="title != null">title,</if>
                 <if test="context != null">context,</if>
                 <if test="date != null">date,</if>
-                <if test="isReaded != null">is_readed,</if>
+                <if test="is_readed != null">is_readed,</if>
                 <if test="type != null">type,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
-                <if test="companyId != null">#{companyId,jdbcType=BIGINT},</if>
+                <if test="company_id != null">#{company_id,jdbcType=BIGINT},</if>
                 <if test="title != null">#{title,jdbcType=VARCHAR},</if>
                 <if test="context != null">#{context,jdbcType=VARCHAR},</if>
                 <if test="date != null">#{date,jdbcType=TIMESTAMP},</if>
-                <if test="isReaded != null">#{isReaded,jdbcType=VARCHAR},</if>
+                <if test="is_readed != null">#{is_readed,jdbcType=VARCHAR},</if>
                 <if test="type != null">#{type,jdbcType=BIGINT},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.xiaye.rescuebackend.model.News">
         update news
         <set>
-                <if test="companyId != null">
-                    company_id = #{companyId,jdbcType=BIGINT},
+                <if test="company_id != null">
+                    company_id = #{company_id,jdbcType=BIGINT},
                 </if>
                 <if test="title != null">
                     title = #{title,jdbcType=VARCHAR},
@@ -76,8 +76,8 @@
                 <if test="date != null">
                     date = #{date,jdbcType=TIMESTAMP},
                 </if>
-                <if test="isReaded != null">
-                    is_readed = #{isReaded,jdbcType=VARCHAR},
+                <if test="is_readed != null">
+                    is_readed = #{is_readed,jdbcType=VARCHAR},
                 </if>
                 <if test="type != null">
                     type = #{type,jdbcType=BIGINT},
@@ -88,11 +88,11 @@
     <update id="updateByPrimaryKey" parameterType="com.xiaye.rescuebackend.model.News">
         update news
         set 
-            company_id =  #{companyId,jdbcType=BIGINT},
+            company_id =  #{company_id,jdbcType=BIGINT},
             title =  #{title,jdbcType=VARCHAR},
             context =  #{context,jdbcType=VARCHAR},
             date =  #{date,jdbcType=TIMESTAMP},
-            is_readed =  #{isReaded,jdbcType=VARCHAR},
+            is_readed =  #{is_readed,jdbcType=VARCHAR},
             type =  #{type,jdbcType=BIGINT}
         where   id = #{id,jdbcType=BIGINT} 
     </update>

@@ -6,7 +6,7 @@ package com.xiaye.rescuebackend.types;
  * 2000 ~ 2999:用户异常
  * 3000 ~ 3999:接口异常
  */
-public enum ResultCode {
+public enum ResultCodeEnum {
     /**
      * 请求成功
      */
@@ -20,7 +20,7 @@ public enum ResultCode {
     private final Integer code;
     private final String message;
 
-    ResultCode(Integer code, String message) {
+    ResultCodeEnum(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

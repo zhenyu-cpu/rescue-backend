@@ -7,9 +7,9 @@
     <resultMap id="BaseResultMap" type="com.xiaye.rescuebackend.model.User">
             <result property="id" column="id" jdbcType="BIGINT"/>
             <result property="username" column="username" jdbcType="VARCHAR"/>
-            <result property="userPhone" column="user_phone" jdbcType="VARCHAR"/>
+            <result property="user_phone" column="user_phone" jdbcType="VARCHAR"/>
             <result property="password" column="password" jdbcType="VARCHAR"/>
-            <result property="companyId" column="company_id" jdbcType="BIGINT"/>
+            <result property="company_id" column="company_id" jdbcType="BIGINT"/>
             <result property="permissions" column="permissions" jdbcType="BIGINT"/>
     </resultMap>
 
@@ -34,8 +34,8 @@
         ( id,username,user_phone
         ,password,company_id,permissions
         )
-        values (#{id,jdbcType=BIGINT},#{username,jdbcType=VARCHAR},#{userPhone,jdbcType=VARCHAR}
-        ,#{password,jdbcType=VARCHAR},#{companyId,jdbcType=BIGINT},#{permissions,jdbcType=BIGINT}
+        values (#{id,jdbcType=BIGINT},#{username,jdbcType=VARCHAR},#{user_phone,jdbcType=VARCHAR}
+        ,#{password,jdbcType=VARCHAR},#{company_id,jdbcType=BIGINT},#{permissions,jdbcType=BIGINT}
         )
     </insert>
     <insert id="insertSelective">
@@ -43,17 +43,17 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
                 <if test="username != null">username,</if>
-                <if test="userPhone != null">user_phone,</if>
+                <if test="user_phone != null">user_phone,</if>
                 <if test="password != null">password,</if>
-                <if test="companyId != null">company_id,</if>
+                <if test="company_id != null">company_id,</if>
                 <if test="permissions != null">permissions,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
                 <if test="username != null">#{username,jdbcType=VARCHAR},</if>
-                <if test="userPhone != null">#{userPhone,jdbcType=VARCHAR},</if>
+                <if test="user_phone != null">#{user_phone,jdbcType=VARCHAR},</if>
                 <if test="password != null">#{password,jdbcType=VARCHAR},</if>
-                <if test="companyId != null">#{companyId,jdbcType=BIGINT},</if>
+                <if test="company_id != null">#{company_id,jdbcType=BIGINT},</if>
                 <if test="permissions != null">#{permissions,jdbcType=BIGINT},</if>
         </trim>
     </insert>
@@ -66,14 +66,14 @@
                 <if test="username != null">
                     username = #{username,jdbcType=VARCHAR},
                 </if>
-                <if test="userPhone != null">
-                    user_phone = #{userPhone,jdbcType=VARCHAR},
+                <if test="user_phone != null">
+                    user_phone = #{user_phone,jdbcType=VARCHAR},
                 </if>
                 <if test="password != null">
                     password = #{password,jdbcType=VARCHAR},
                 </if>
-                <if test="companyId != null">
-                    company_id = #{companyId,jdbcType=BIGINT},
+                <if test="company_id != null">
+                    company_id = #{company_id,jdbcType=BIGINT},
                 </if>
                 <if test="permissions != null">
                     permissions = #{permissions,jdbcType=BIGINT},
@@ -86,9 +86,9 @@
         set 
             id =  #{id,jdbcType=BIGINT},
             username =  #{username,jdbcType=VARCHAR},
-            user_phone =  #{userPhone,jdbcType=VARCHAR},
+            user_phone =  #{user_phone,jdbcType=VARCHAR},
             password =  #{password,jdbcType=VARCHAR},
-            company_id =  #{companyId,jdbcType=BIGINT},
+            company_id =  #{company_id,jdbcType=BIGINT},
             permissions =  #{permissions,jdbcType=BIGINT}
         where  
     </update>

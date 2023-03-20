@@ -17,31 +17,37 @@ public class User implements Serializable {
     /**
      * 
      */
+    @TableField(value = "id")
     private Long id;
 
     /**
      * 
      */
+    @TableField(value = "username")
     private String username;
 
     /**
      * 
      */
-    private String userPhone;
+    @TableField(value = "user_phone")
+    private String user_phone;
 
     /**
      * 
      */
+    @TableField(value = "password")
     private String password;
 
     /**
      * 
      */
-    private Long companyId;
+    @TableField(value = "company_id")
+    private Long company_id;
 
     /**
      * 
      */
+    @TableField(value = "permissions")
     private Long permissions;
 
     @TableField(exist = false)
@@ -61,9 +67,9 @@ public class User implements Serializable {
         User other = (User) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
-            && (this.getUserPhone() == null ? other.getUserPhone() == null : this.getUserPhone().equals(other.getUserPhone()))
+            && (this.getUser_phone() == null ? other.getUser_phone() == null : this.getUser_phone().equals(other.getUser_phone()))
             && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getCompany_id() == null ? other.getCompany_id() == null : this.getCompany_id().equals(other.getCompany_id()))
             && (this.getPermissions() == null ? other.getPermissions() == null : this.getPermissions().equals(other.getPermissions()));
     }
 
@@ -73,9 +79,9 @@ public class User implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
-        result = prime * result + ((getUserPhone() == null) ? 0 : getUserPhone().hashCode());
+        result = prime * result + ((getUser_phone() == null) ? 0 : getUser_phone().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
-        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getCompany_id() == null) ? 0 : getCompany_id().hashCode());
         result = prime * result + ((getPermissions() == null) ? 0 : getPermissions().hashCode());
         return result;
     }
@@ -88,9 +94,9 @@ public class User implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", username=").append(username);
-        sb.append(", userPhone=").append(userPhone);
+        sb.append(", user_phone=").append(user_phone);
         sb.append(", password=").append(password);
-        sb.append(", companyId=").append(companyId);
+        sb.append(", company_id=").append(company_id);
         sb.append(", permissions=").append(permissions);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
