@@ -3,10 +3,15 @@ package com.xiaye.rescuebackend.config;
 import cn.dev33.satoken.config.SaTokenConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
+/**
+ * sa-token的配置文件
+ */
 @Configuration
 public class SaTokenConfigure {
     @Bean
+    @Primary
     public SaTokenConfig getSaTokenConfigPrimary() {
         SaTokenConfig config = new SaTokenConfig();
         // token名称，同时也是cookie名称

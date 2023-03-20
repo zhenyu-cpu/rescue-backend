@@ -16,7 +16,6 @@ public class CorsConfig implements WebMvcConfigurer {
                 .addMapping("/**")
                 //所有地址均可以访问
                 .allowedOrigins("*")
-                .allowCredentials(true)
                 //允许所有请求方法
                 .allowedMethods("*")
                 //跨域允许时间
