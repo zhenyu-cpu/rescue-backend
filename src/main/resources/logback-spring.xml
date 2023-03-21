@@ -35,8 +35,4 @@
         <appender-ref ref="syslog" />
     </logger>
 
-    <logger name="com.swagger.bootstrap.ui.demo" level="INFO" additivity="true">
-        <appender-ref ref="syslog"/>
-    </logger>
-
 </configuration>

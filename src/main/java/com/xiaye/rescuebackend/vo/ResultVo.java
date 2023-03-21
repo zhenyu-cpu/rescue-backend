@@ -1,8 +1,10 @@
 package com.xiaye.rescuebackend.vo;
 
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -12,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResultVo<T> {
     /**
      * 返回的代码
@@ -30,7 +34,7 @@ public class ResultVo<T> {
 
     /**
      * 默认传入值，code和message以及data
-     * @param data
+     * @param data 需要返回的数据
      */
     public ResultVo(T data){
         this.code = 0;
@@ -40,9 +44,9 @@ public class ResultVo<T> {
 
     /**
      * 常见成功返回消息封装类
-     * @param data
-     * @param <T>
-     * @return
+     * @param data 需要返回的数据
+     * @param <T> 数据的类型
+     * @return 封装后的结果
      */
     public static <T> ResultVo<T> success (T data){
         return new ResultVo<>(ResultCodeEnum.SUCCEED.code(), ResultCodeEnum.SUCCEED.message(), data);
@@ -56,16 +60,5 @@ public class ResultVo<T> {
      */
     public static <T> ResultVo<T> error(T data) {
         return new ResultVo<>(ResultCodeEnum.ERROR.code(), ResultCodeEnum.ERROR.message(), data);
-    }
-    /**
-     * 全值构造函数
-     * @param code
-     * @param message
-     * @param data
-     */
-    public ResultVo(Integer code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
     }
 }

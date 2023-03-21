@@ -10,12 +10,14 @@
             <result property="user_phone" column="user_phone" jdbcType="VARCHAR"/>
             <result property="password" column="password" jdbcType="VARCHAR"/>
             <result property="company_id" column="company_id" jdbcType="BIGINT"/>
-            <result property="permissions" column="permissions" jdbcType="BIGINT"/>
+            <result property="role" column="role" jdbcType="VARCHAR"/>
+            <result property="approved" column="approved" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,username,user_phone,
-        password,company_id,permissions
+        password,company_id,role,
+        approved
     </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -32,11 +34,11 @@
     <insert id="insert">
         insert into user
         ( id,username,user_phone
-        ,password,company_id,permissions
-        )
+        ,password,company_id,role
+        ,approved)
         values (#{id,jdbcType=BIGINT},#{username,jdbcType=VARCHAR},#{user_phone,jdbcType=VARCHAR}
-        ,#{password,jdbcType=VARCHAR},#{company_id,jdbcType=BIGINT},#{permissions,jdbcType=BIGINT}
-        )
+        ,#{password,jdbcType=VARCHAR},#{company_id,jdbcType=BIGINT},#{role,jdbcType=VARCHAR}
+        ,#{approved,jdbcType=TINYINT})
     </insert>
     <insert id="insertSelective">
         insert into user
@@ -46,7 +48,8 @@
                 <if test="user_phone != null">user_phone,</if>
                 <if test="password != null">password,</if>
                 <if test="company_id != null">company_id,</if>
-                <if test="permissions != null">permissions,</if>
+                <if test="role != null">role,</if>
+                <if test="approved != null">approved,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
@@ -54,7 +57,8 @@
                 <if test="user_phone != null">#{user_phone,jdbcType=VARCHAR},</if>
                 <if test="password != null">#{password,jdbcType=VARCHAR},</if>
                 <if test="company_id != null">#{company_id,jdbcType=BIGINT},</if>
-                <if test="permissions != null">#{permissions,jdbcType=BIGINT},</if>
+                <if test="role != null">#{role,jdbcType=VARCHAR},</if>
+                <if test="approved != null">#{approved,jdbcType=TINYINT},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.xiaye.rescuebackend.model.User">
@@ -75,8 +79,11 @@
                 <if test="company_id != null">
                     company_id = #{company_id,jdbcType=BIGINT},
                 </if>
-                <if test="permissions != null">
-                    permissions = #{permissions,jdbcType=BIGINT},
+                <if test="role != null">
+                    role = #{role,jdbcType=VARCHAR},
+                </if>
+                <if test="approved != null">
+                    approved = #{approved,jdbcType=TINYINT},
                 </if>
         </set>
         where  
@@ -89,7 +96,8 @@
             user_phone =  #{user_phone,jdbcType=VARCHAR},
             password =  #{password,jdbcType=VARCHAR},
             company_id =  #{company_id,jdbcType=BIGINT},
-            permissions =  #{permissions,jdbcType=BIGINT}
+            role =  #{role,jdbcType=VARCHAR},
+            approved =  #{approved,jdbcType=TINYINT}
         where  
     </update>
 </mapper>

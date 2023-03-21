@@ -5,7 +5,7 @@ import com.xiaye.rescuebackend.model.News;
 /**
 * @author zhenyu
 * @description 针对表【news(行政信息)】的数据库操作Mapper
-* @createDate 2023-03-20 22:49:43
+* @createDate 2023-03-21 23:16:42
 * @Entity com.xiaye.rescuebackend.model.News
 */
 public interface NewsMapper {

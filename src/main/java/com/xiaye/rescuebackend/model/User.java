@@ -45,10 +45,19 @@ public class User implements Serializable {
     private Long company_id;
 
     /**
-     * 
+     * 角色类型:
+system_admin
+company_admin
+company_user
      */
-    @TableField(value = "permissions")
-    private Long permissions;
+    @TableField(value = "role")
+    private String role;
+
+    /**
+     * 是否审批
+     */
+    @TableField(value = "approved")
+    private Integer approved;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -70,7 +79,8 @@ public class User implements Serializable {
             && (this.getUser_phone() == null ? other.getUser_phone() == null : this.getUser_phone().equals(other.getUser_phone()))
             && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
             && (this.getCompany_id() == null ? other.getCompany_id() == null : this.getCompany_id().equals(other.getCompany_id()))
-            && (this.getPermissions() == null ? other.getPermissions() == null : this.getPermissions().equals(other.getPermissions()));
+            && (this.getRole() == null ? other.getRole() == null : this.getRole().equals(other.getRole()))
+            && (this.getApproved() == null ? other.getApproved() == null : this.getApproved().equals(other.getApproved()));
     }
 
     @Override
@@ -82,24 +92,25 @@ public class User implements Serializable {
         result = prime * result + ((getUser_phone() == null) ? 0 : getUser_phone().hashCode());
         result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
         result = prime * result + ((getCompany_id() == null) ? 0 : getCompany_id().hashCode());
-        result = prime * result + ((getPermissions() == null) ? 0 : getPermissions().hashCode());
+        result = prime * result + ((getRole() == null) ? 0 : getRole().hashCode());
+        result = prime * result + ((getApproved() == null) ? 0 : getApproved().hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", username=").append(username);
-        sb.append(", user_phone=").append(user_phone);
-        sb.append(", password=").append(password);
-        sb.append(", company_id=").append(company_id);
-        sb.append(", permissions=").append(permissions);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        String sb = getClass().getSimpleName() +
+                " [" +
+                "Hash = " + hashCode() +
+                ", id=" + id +
+                ", username=" + username +
+                ", user_phone=" + user_phone +
+                ", password=" + password +
+                ", company_id=" + company_id +
+                ", role=" + role +
+                ", approved=" + approved +
+                ", serialVersionUID=" + serialVersionUID +
+                "]";
+        return sb;
     }
 }
