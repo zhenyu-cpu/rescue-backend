@@ -24,12 +24,18 @@
         select
         <include refid="Base_Column_List" />
         from user
-        where 
+        where id = #{id}
+    </select>
+    <select id="selectByUser_phone" resultType="com.xiaye.rescuebackend.model.User" parameterType="string">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where user_phone = #{phoneNumber}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from user
-        where 
+        where id = #{id}
     </delete>
     <insert id="insert">
         insert into user

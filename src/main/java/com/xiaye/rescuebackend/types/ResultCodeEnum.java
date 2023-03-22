@@ -32,8 +32,11 @@ public enum ResultCodeEnum {
     /**
      * 未能找到用户
      */
-    USER_NOT_FOUND(2003,"未能发现用户");
-    ;
+    USER_NOT_FOUND(2003,"未能发现用户"),
+    /**
+     * 用户未登录
+     */
+    USER_NOT_AUTH(2004,"用户未登录");
 
     private final Integer code;
     private final String message;

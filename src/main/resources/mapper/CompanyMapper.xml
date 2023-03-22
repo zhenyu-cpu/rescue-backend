@@ -9,12 +9,12 @@
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="code" column="code" jdbcType="VARCHAR"/>
             <result property="credit" column="credit" jdbcType="BIGINT"/>
-            <result property="identity" column="identity" jdbcType="BIGINT"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,name,code,
-        credit,identity
+        credit,address
     </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -31,9 +31,9 @@
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.Company" useGeneratedKeys="true">
         insert into company
         ( id,name,code
-        ,credit,identity)
+        ,credit,address)
         values (#{id,jdbcType=BIGINT},#{name,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR}
-        ,#{credit,jdbcType=BIGINT},#{identity,jdbcType=BIGINT})
+        ,#{credit,jdbcType=BIGINT},#{address,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.Company" useGeneratedKeys="true">
         insert into company
@@ -42,14 +42,14 @@
                 <if test="name != null">name,</if>
                 <if test="code != null">code,</if>
                 <if test="credit != null">credit,</if>
-                <if test="identity != null">identity,</if>
+                <if test="address != null">address,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
                 <if test="name != null">#{name,jdbcType=VARCHAR},</if>
                 <if test="code != null">#{code,jdbcType=VARCHAR},</if>
                 <if test="credit != null">#{credit,jdbcType=BIGINT},</if>
-                <if test="identity != null">#{identity,jdbcType=BIGINT},</if>
+                <if test="address != null">#{address,jdbcType=VARCHAR},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.xiaye.rescuebackend.model.Company">
@@ -64,8 +64,8 @@
                 <if test="credit != null">
                     credit = #{credit,jdbcType=BIGINT},
                 </if>
-                <if test="identity != null">
-                    identity = #{identity,jdbcType=BIGINT},
+                <if test="address != null">
+                    address = #{address,jdbcType=VARCHAR},
                 </if>
         </set>
         where   id = #{id,jdbcType=BIGINT} 
@@ -76,7 +76,7 @@
             name =  #{name,jdbcType=VARCHAR},
             code =  #{code,jdbcType=VARCHAR},
             credit =  #{credit,jdbcType=BIGINT},
-            identity =  #{identity,jdbcType=BIGINT}
+            address =  #{address,jdbcType=VARCHAR}
         where   id = #{id,jdbcType=BIGINT} 
     </update>
 </mapper>
