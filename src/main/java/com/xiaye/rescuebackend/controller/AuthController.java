@@ -6,6 +6,7 @@ import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import com.xiaye.rescuebackend.vo.AuthInfoVo;
 import com.xiaye.rescuebackend.vo.AuthParam;
 import com.xiaye.rescuebackend.vo.ResultVo;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,5 +39,11 @@ public class AuthController {
     @GetMapping("/")
     public String test(){
         return "test";
+    }
+
+    @Operation(summary = "用户登出")
+    @GetMapping("/logout")
+    public ResultVo<Object> logout(){
+        return ResultVo.<Object>builder().build();
     }
 }

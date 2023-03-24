@@ -6,11 +6,11 @@
 
     <resultMap id="BaseResultMap" type="com.xiaye.rescuebackend.model.News">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="company_id" column="company_id" jdbcType="BIGINT"/>
+            <result property="companyId" column="company_id" jdbcType="BIGINT"/>
             <result property="title" column="title" jdbcType="VARCHAR"/>
             <result property="context" column="context" jdbcType="VARCHAR"/>
             <result property="date" column="date" jdbcType="TIMESTAMP"/>
-            <result property="is_readed" column="is_readed" jdbcType="VARCHAR"/>
+            <result property="isReaded" column="is_readed" jdbcType="VARCHAR"/>
             <result property="type" column="type" jdbcType="BIGINT"/>
     </resultMap>
 

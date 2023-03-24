@@ -6,9 +6,9 @@
 
     <resultMap id="BaseResultMap" type="com.xiaye.rescuebackend.model.UserNews">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="user_id" column="user_id" jdbcType="BIGINT"/>
-            <result property="news_id" column="news_id" jdbcType="BIGINT"/>
-            <result property="read_flag" column="read_flag" jdbcType="TINYINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="newsId" column="news_id" jdbcType="BIGINT"/>
+            <result property="readFlag" column="read_flag" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">

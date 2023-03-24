@@ -6,5 +6,5 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParamExceptions extends BaseException {
+public class ParamExceptions extends BaseException{
 }

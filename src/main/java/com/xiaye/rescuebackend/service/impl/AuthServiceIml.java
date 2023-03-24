@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xiaye.rescuebackend.exception.AuthException;
+import com.xiaye.rescuebackend.exception.BaseExceptionFactory;
 import com.xiaye.rescuebackend.model.User;
 import com.xiaye.rescuebackend.service.AuthService;
 import com.xiaye.rescuebackend.service.UserService;
@@ -26,7 +27,7 @@ public class AuthServiceIml  implements AuthService{
     @Override
     public AuthInfoVo login(String phoneNumber, String password) throws AuthException {
         if (StrUtil.isBlank(phoneNumber) || StrUtil.isBlank(password)){
-            throw new AuthException(ResultCodeEnum.USER_AUTH_ERROR.code(),ResultCodeEnum.USER_AUTH_ERROR.message());
+            throw BaseExceptionFactory.createException(ResultCodeEnum.USER_AUTH_ERROR);
         }
         User currentUser = userService.selectUserByPhoneNumber(phoneNumber);
 

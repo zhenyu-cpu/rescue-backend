@@ -15,7 +15,10 @@ public enum ResultCodeEnum {
      * 请求异常
      */
     ERROR(3000, "异常"),
-
+    /**
+     *
+     */
+    PARAM_VERIFY_ERROR(1001,"参数异常"),
     /**
      * 用户授权成功
      */

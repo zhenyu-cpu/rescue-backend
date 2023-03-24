@@ -61,4 +61,10 @@ public class ResultVo<T> {
     public static <T> ResultVo<T> error(T data) {
         return new ResultVo<>(ResultCodeEnum.ERROR.code(), ResultCodeEnum.ERROR.message(), data);
     }
+
+    public ResultVo<T> of(ResultCodeEnum resultCodeEnum){
+        this.code = resultCodeEnum.code();
+        this.message = resultCodeEnum.message();
+        return this;
+    }
 }
