@@ -5,78 +5,86 @@
 <mapper namespace="com.xiaye.rescuebackend.mapper.CompanyMapper">
 
     <resultMap id="BaseResultMap" type="com.xiaye.rescuebackend.model.Company">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="code" column="code" jdbcType="VARCHAR"/>
-            <result property="credit" column="credit" jdbcType="BIGINT"/>
-            <result property="address" column="address" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="credit" column="credit" jdbcType="BIGINT"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,code,
+        id
+        ,name,code,
         credit,address
     </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from company
-        where  id = #{id,jdbcType=BIGINT} 
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByCode" resultType="com.xiaye.rescuebackend.model.Company">
+        select
+        <include refid="Base_Column_List"></include>
+        from company where code = #{code};
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from company
-        where  id = #{id,jdbcType=BIGINT} 
+        delete
+        from company
+        where id = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.Company" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.Company"
+            useGeneratedKeys="true">
         insert into company
-        ( id,name,code
-        ,credit,address)
-        values (#{id,jdbcType=BIGINT},#{name,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR}
-        ,#{credit,jdbcType=BIGINT},#{address,jdbcType=VARCHAR})
+        ( id, name, code
+        , credit, address)
+        values ( #{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}
+               , #{credit,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.Company" useGeneratedKeys="true">
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.Company"
+            useGeneratedKeys="true">
         insert into company
         <trim prefix="(" suffix=")" suffixOverrides=",">
-                <if test="id != null">id,</if>
-                <if test="name != null">name,</if>
-                <if test="code != null">code,</if>
-                <if test="credit != null">credit,</if>
-                <if test="address != null">address,</if>
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="code != null">code,</if>
+            <if test="credit != null">credit,</if>
+            <if test="address != null">address,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-                <if test="id != null">#{id,jdbcType=BIGINT},</if>
-                <if test="name != null">#{name,jdbcType=VARCHAR},</if>
-                <if test="code != null">#{code,jdbcType=VARCHAR},</if>
-                <if test="credit != null">#{credit,jdbcType=BIGINT},</if>
-                <if test="address != null">#{address,jdbcType=VARCHAR},</if>
+            <if test="id != null">#{id,jdbcType=BIGINT},</if>
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="code != null">#{code,jdbcType=VARCHAR},</if>
+            <if test="credit != null">#{credit,jdbcType=BIGINT},</if>
+            <if test="address != null">#{address,jdbcType=VARCHAR},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.xiaye.rescuebackend.model.Company">
         update company
         <set>
-                <if test="name != null">
-                    name = #{name,jdbcType=VARCHAR},
-                </if>
-                <if test="code != null">
-                    code = #{code,jdbcType=VARCHAR},
-                </if>
-                <if test="credit != null">
-                    credit = #{credit,jdbcType=BIGINT},
-                </if>
-                <if test="address != null">
-                    address = #{address,jdbcType=VARCHAR},
-                </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="credit != null">
+                credit = #{credit,jdbcType=BIGINT},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
         </set>
-        where   id = #{id,jdbcType=BIGINT} 
+        where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.xiaye.rescuebackend.model.Company">
         update company
-        set 
-            name =  #{name,jdbcType=VARCHAR},
-            code =  #{code,jdbcType=VARCHAR},
-            credit =  #{credit,jdbcType=BIGINT},
-            address =  #{address,jdbcType=VARCHAR}
-        where   id = #{id,jdbcType=BIGINT} 
+        set name    = #{name,jdbcType=VARCHAR},
+            code    = #{code,jdbcType=VARCHAR},
+            credit  = #{credit,jdbcType=BIGINT},
+            address = #{address,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

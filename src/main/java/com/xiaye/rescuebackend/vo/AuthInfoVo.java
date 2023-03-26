@@ -5,8 +5,10 @@ import com.xiaye.rescuebackend.model.User;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
+
 @Data
-public class AuthInfoVo {
+public class AuthInfoVo implements Serializable {
     /**
      * 用户名
      */

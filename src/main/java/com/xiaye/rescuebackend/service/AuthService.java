@@ -3,6 +3,7 @@ package com.xiaye.rescuebackend.service;
 import com.xiaye.rescuebackend.exception.AuthException;
 import com.xiaye.rescuebackend.model.User;
 import com.xiaye.rescuebackend.vo.AuthInfoVo;
+import com.xiaye.rescuebackend.vo.RegisterParam;
 
 /**
  * 登陆服务
@@ -15,10 +16,17 @@ public interface AuthService {
      * @return 登陆成功的用户信息
      */
     AuthInfoVo login(String phoneNumber, String password) throws AuthException;
-
     /**
      * 用于注销当前登陆的用户
-     * @return
+     * @return 注销登陆信息
      */
-    boolean logout();
+    String logout();
+
+    /**
+     * 注册用户
+     * @param param 注册参数
+     * @return 登陆后的用户信息
+     * @throws AuthException 认证异常
+     */
+    String register(RegisterParam param) throws AuthException;
 }

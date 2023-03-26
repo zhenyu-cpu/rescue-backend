@@ -23,4 +23,5 @@ public interface CompanyMapper extends BaseMapper<Company> {
 
     int updateByPrimaryKey(Company record);
 
+    Company selectByCode(String code);
 }

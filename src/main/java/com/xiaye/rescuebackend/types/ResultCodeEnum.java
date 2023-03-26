@@ -16,7 +16,7 @@ public enum ResultCodeEnum {
      */
     ERROR(3000, "异常"),
     /**
-     *
+     * 参数异常
      */
     PARAM_VERIFY_ERROR(1001,"参数异常"),
     /**
@@ -39,7 +39,19 @@ public enum ResultCodeEnum {
     /**
      * 用户未登录
      */
-    USER_NOT_AUTH(2004,"用户未登录");
+    USER_NOT_AUTH(2004,"用户未登录"),
+    /**
+     * 用户已经注销
+     */
+    USER_LOGOUT(2005,"用户已注销"),
+    /**
+     * 用户注册失败
+     */
+    USER_REGISTER_ERROR(2006,"用户注册失败"),
+
+    //公司以及被注册
+    DUPLICATE_COMPANY_REGISTRATION(3000,"公司重复注册");
+
 
     private final Integer code;
     private final String message;
