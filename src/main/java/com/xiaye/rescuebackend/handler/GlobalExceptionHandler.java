@@ -56,8 +56,12 @@ public class GlobalExceptionHandler {
      * 持久层和服务层的参数校验错误
      */
     @ExceptionHandler(value = {ParamExceptions.class})
-    public ResultVo<Object> paramExceptionHandler(@NotNull ParamExceptions paramExceptions){
-        return ResultVo.<Object>builder().build();
+    public ResultVo<Object> paramExceptionHandler(@NotNull Exception paramExceptions){
+        return ResultVo.<Object>builder()
+                .code(ResultCodeEnum.PARAM_VERIFY_ERROR.code())
+                .message(ResultCodeEnum.PARAM_VERIFY_ERROR.message())
+                .data(paramExceptions.getStackTrace())
+                .build();
     }
 
     /**
@@ -73,11 +77,18 @@ public class GlobalExceptionHandler {
                 .data(methodArgumentNotValidException.getModel())
                 .build();
     }
+
+    /**
+     * 不能登录异常处理
+     * @param notLoginException
+     * @return
+     */
     @ExceptionHandler(value = {NotLoginException.class})
-    public ResultVo<Object> notLoginExceptionHandler(NotLoginException notLoginException){
+    public ResultVo<Object> notLoginExceptionHandler(@NotNull NotLoginException notLoginException){
         return ResultVo.builder()
-                .code(ResultCodeEnum.USER_AUTH_ERROR.code())
+                .code(notLoginException.getCode())
                 .message(notLoginException.getMessage())
+                .data(notLoginException.getStackTrace())
                 .build();
     }
 }

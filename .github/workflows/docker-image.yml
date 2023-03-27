@@ -15,8 +15,7 @@ jobs:
     steps:
 
     - uses: actions/checkout@v3
-    - name: Checkout code
-      run: echo ::set-env name=TAG_VERSION::${GITHUB_REF#refs/*/}
+      name: Checkout code
 
     - name: Login to Docker Hub
       uses: docker/login-action@v2
@@ -26,10 +25,10 @@ jobs:
 
     - name: Build Docker image
       run: |
-        TAG=`$TAG_VERSION`
+        TAG=`${{GITHUB_REF#refs/*/v}}`
         docker build -t ${{ env.IMAGE_NAME }}:${TAG} .
 
     - name: Push Docker image
       run: |
-        TAG=`$TAG_VERSION`
+        TAG=`${{GITHUB_REF#refs/*/v}}`
         docker push ${{ env.IMAGE_NAME }}:${TAG}

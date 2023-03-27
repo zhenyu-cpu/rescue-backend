@@ -10,14 +10,12 @@ public class AuthParam {
     /**
      * 手机号码
      */
-    @NotNull
     @NotBlank
     private String phoneNumber;
 
     /**
      * 密码
      */
-    @NotNull
     @NotBlank
     private String password;
 }

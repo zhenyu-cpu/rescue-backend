@@ -11,6 +11,7 @@ import com.xiaye.rescuebackend.service.AuthService;
 import com.xiaye.rescuebackend.service.CompanyService;
 import com.xiaye.rescuebackend.service.UserService;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
+import com.xiaye.rescuebackend.types.RoleNameEnum;
 import com.xiaye.rescuebackend.types.UserApprovedEnum;
 import com.xiaye.rescuebackend.vo.AuthInfoVo;
 import com.xiaye.rescuebackend.vo.RegisterParam;
@@ -69,6 +70,7 @@ public class AuthServiceIml implements AuthService {
         user.setUserPhone(param.getPhoneNumber());
         user.setPassword(param.getPassword());
         user.setApproved(UserApprovedEnum.UNAUDITED.getValue());
+        user.setRole(RoleNameEnum.COMPANY_ADMIN.getRoleName());
         user.setCompanyId(company.getId());
         userService.save(user);
         return null;
@@ -76,9 +78,9 @@ public class AuthServiceIml implements AuthService {
 
     /**
      * 验证密码
-     * @param inputPassword
-     * @param storePassword
-     * @return
+     * @param inputPassword 输入密码
+     * @param storePassword 存储的密码
+     * @return 是否相同
      */
     private boolean verifyPassword(String inputPassword, String storePassword) {
         if (ObjectUtil.isEmpty(inputPassword) || ObjectUtil.isEmpty(storePassword)) {
