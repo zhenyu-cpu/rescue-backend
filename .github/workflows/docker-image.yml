@@ -25,10 +25,10 @@ jobs:
 
     - name: Build Docker image
       run: |
-        TAG=`${github.ref:10}`
+        TAG=`${github.ref:11`
         docker build -t ${{ env.IMAGE_NAME }}:${TAG} .
 
     - name: Push Docker image
       run: |
-        TAG=`${github.ref:10}`
+        TAG=`${github.ref:11}`
         docker push ${{ env.IMAGE_NAME }}:${TAG}
