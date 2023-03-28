@@ -5,7 +5,7 @@ ENV PROJECT_VERSION  "0.0.1"
 ENV PORT "3088"
 
 # 从编译好的镜像中将jar拷贝到运行时容器
-COPY ./target/$PROJECT_NAME-$ROJECT_VERSION.jar /$PROJECT_NAME.jar
+COPY ./target/$PROJECT_NAME-$PROJECT_VERSION.jar /$PROJECT_NAME.jar
 
 # 容器启动时执行的命令，这里可加jvm参数
 ENTRYPOINT ["nohup","java","-jar","$PROJECT_NAME.jar","&"]
