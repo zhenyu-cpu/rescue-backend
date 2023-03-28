@@ -1,7 +1,6 @@
 package com.xiaye.rescuebackend.service;
 
 import com.xiaye.rescuebackend.exception.AuthException;
-import com.xiaye.rescuebackend.model.User;
 import com.xiaye.rescuebackend.vo.AuthInfoVo;
 import com.xiaye.rescuebackend.vo.RegisterParam;
 
@@ -28,5 +27,5 @@ public interface AuthService {
      * @return 登陆后的用户信息
      * @throws AuthException 认证异常
      */
-    String register(RegisterParam param) throws AuthException;
+    String register(RegisterParam param);
 }

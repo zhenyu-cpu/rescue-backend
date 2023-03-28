@@ -11,7 +11,7 @@
             <fileNamePattern>logs/rescue-backend.%d.%i.log</fileNamePattern>
             <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->
             <maxHistory>90</maxHistory>
-            <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
@@ -24,15 +24,10 @@
 
     <!-- 控制台输出日志级别 -->
     <root level="info">
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="STDOUT"/>
     </root>
-    <!--禁用SpringFox项目的Info日志-->
-    <!--<logger name="org.springframework" level="DEBUG">
-        <appender-ref ref="syslog" />
-    </logger>-->
-    <!--禁用SpringFox项目的Info日志-->
     <logger name="springfox.documentation" level="ERROR">
-        <appender-ref ref="syslog" />
+        <appender-ref ref="syslog"/>
     </logger>
 
 </configuration>

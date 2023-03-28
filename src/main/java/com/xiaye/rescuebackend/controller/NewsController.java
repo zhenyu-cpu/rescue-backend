@@ -8,5 +8,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/news")
 @Tag(name = "新闻管理")
 public class NewsController {
-
 }

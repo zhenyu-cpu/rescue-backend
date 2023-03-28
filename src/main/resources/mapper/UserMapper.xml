@@ -5,13 +5,13 @@
 <mapper namespace="com.xiaye.rescuebackend.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="com.xiaye.rescuebackend.model.User">
-            <result property="id" column="id" jdbcType="BIGINT"/>
-            <result property="username" column="username" jdbcType="VARCHAR"/>
-            <result property="userPhone" column="user_phone" jdbcType="VARCHAR"/>
-            <result property="password" column="password" jdbcType="VARCHAR"/>
-            <result property="companyId" column="company_id" jdbcType="BIGINT"/>
-            <result property="role" column="role" jdbcType="VARCHAR"/>
-            <result property="approved" column="approved" jdbcType="TINYINT"/>
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="userPhone" column="user_phone" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="companyId" column="company_id" jdbcType="BIGINT"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <result property="approved" column="approved" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -22,7 +22,7 @@
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from user
         where id = #{id}
     </select>
@@ -38,78 +38,107 @@
         from user
         where user_phone = #{phoneNumber};
     </select>
+    <select id="pageUserInfoVoByUserRole" resultType="com.xiaye.rescuebackend.vo.UserInfoVo">
+        select U.id         as "id",
+               U.user_phone as "phoneNumber",
+               U.role       as "role",
+               C.name       as "company",
+               U.company_id as "companyId",
+               U.approved   as "approved"
+        from user as U,
+             company as C
+        where role = #{roleName}
+          and U.company_id = C.id;
+    </select>
+    <select id="pageUserInfoVoByCompanyId" resultType="com.xiaye.rescuebackend.vo.UserInfoVo">
+        select U.id         as "id",
+               U.user_phone as "phoneNumber",
+               U.role       as "role",
+               C.name       as "company",
+               U.company_id as "companyId",
+               U.approved   as "approved"
+        from user as U,
+             company as C
+        where U.id = #{companyId}
+          and U.company_id = C.id;
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from user
+        delete
+        from user
+        where id = #{id}
+    </delete>
+    <delete id="deleteByIdForDifferentRole">
+        delete
+        from user
         where id = #{id}
     </delete>
     <insert id="insert">
         insert into user
-        ( id,username,user_phone
-        ,password,company_id,role
-        ,approved)
-        values (#{id,jdbcType=BIGINT},#{username,jdbcType=VARCHAR},#{userPhone,jdbcType=VARCHAR}
-        ,#{password,jdbcType=VARCHAR},#{companyId,jdbcType=BIGINT},#{role,jdbcType=VARCHAR}
-        ,#{approved,jdbcType=TINYINT})
+        ( id, username, user_phone
+        , password, company_id, role
+        , approved)
+        values ( #{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}
+               , #{password,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT}, #{role,jdbcType=VARCHAR}
+               , #{approved,jdbcType=TINYINT})
     </insert>
     <insert id="insertSelective">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
-                <if test="id != null">id,</if>
-                <if test="username != null">username,</if>
-                <if test="userPhone != null">user_phone,</if>
-                <if test="password != null">password,</if>
-                <if test="companyId != null">company_id,</if>
-                <if test="role != null">role,</if>
-                <if test="approved != null">approved,</if>
+            <if test="id != null">id,</if>
+            <if test="username != null">username,</if>
+            <if test="userPhone != null">user_phone,</if>
+            <if test="password != null">password,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="role != null">role,</if>
+            <if test="approved != null">approved,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-                <if test="id != null">#{id,jdbcType=BIGINT},</if>
-                <if test="username != null">#{username,jdbcType=VARCHAR},</if>
-                <if test="userPhone != null">#{userPhone,jdbcType=VARCHAR},</if>
-                <if test="password != null">#{password,jdbcType=VARCHAR},</if>
-                <if test="companyId != null">#{companyId,jdbcType=BIGINT},</if>
-                <if test="role != null">#{role,jdbcType=VARCHAR},</if>
-                <if test="approved != null">#{approved,jdbcType=TINYINT},</if>
+            <if test="id != null">#{id,jdbcType=BIGINT},</if>
+            <if test="username != null">#{username,jdbcType=VARCHAR},</if>
+            <if test="userPhone != null">#{userPhone,jdbcType=VARCHAR},</if>
+            <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+            <if test="companyId != null">#{companyId,jdbcType=BIGINT},</if>
+            <if test="role != null">#{role,jdbcType=VARCHAR},</if>
+            <if test="approved != null">#{approved,jdbcType=TINYINT},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.xiaye.rescuebackend.model.User">
         update user
         <set>
-                <if test="id != null">
-                    id = #{id,jdbcType=BIGINT},
-                </if>
-                <if test="username != null">
-                    username = #{username,jdbcType=VARCHAR},
-                </if>
-                <if test="userPhone != null">
-                    user_phone = #{userPhone,jdbcType=VARCHAR},
-                </if>
-                <if test="password != null">
-                    password = #{password,jdbcType=VARCHAR},
-                </if>
-                <if test="companyId != null">
-                    company_id = #{companyId,jdbcType=BIGINT},
-                </if>
-                <if test="role != null">
-                    role = #{role,jdbcType=VARCHAR},
-                </if>
-                <if test="approved != null">
-                    approved = #{approved,jdbcType=TINYINT},
-                </if>
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=BIGINT},
+            </if>
+            <if test="role != null">
+                role = #{role,jdbcType=VARCHAR},
+            </if>
+            <if test="approved != null">
+                approved = #{approved,jdbcType=TINYINT},
+            </if>
         </set>
-        where  
+        where
     </update>
     <update id="updateByPrimaryKey" parameterType="com.xiaye.rescuebackend.model.User">
         update user
-        set 
-            id =  #{id,jdbcType=BIGINT},
-            username =  #{username,jdbcType=VARCHAR},
-            user_phone =  #{userPhone,jdbcType=VARCHAR},
-            password =  #{password,jdbcType=VARCHAR},
-            company_id =  #{companyId,jdbcType=BIGINT},
-            role =  #{role,jdbcType=VARCHAR},
-            approved =  #{approved,jdbcType=TINYINT}
-        where  
+        set id         = #{id,jdbcType=BIGINT},
+            username   = #{username,jdbcType=VARCHAR},
+            user_phone = #{userPhone,jdbcType=VARCHAR},
+            password   = #{password,jdbcType=VARCHAR},
+            company_id = #{companyId,jdbcType=BIGINT},
+            role       = #{role,jdbcType=VARCHAR},
+            approved   = #{approved,jdbcType=TINYINT}
+        where
     </update>
 </mapper>

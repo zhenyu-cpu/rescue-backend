@@ -4,8 +4,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaye.rescuebackend.model.User;
 import com.xiaye.rescuebackend.vo.PageParam;
+import com.xiaye.rescuebackend.vo.UpdatePasswordParam;
+import com.xiaye.rescuebackend.vo.UserInfoVo;
 import com.xiaye.rescuebackend.vo.UserParam;
-import com.xiaye.rescuebackend.vo.UserVo;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,13 +35,15 @@ public interface UserService extends IService<User> {
 
     /**
      * 通过id，查询用户信息
+     *
      * @param id 用户id
      * @return
      */
-    UserVo selectUserInfoById(Long id);
+    UserInfoVo selectUserInfoById(Long id);
 
     /**
      * 添加公司管理用户
+     *
      * @param userParam
      * @return
      */
@@ -48,6 +51,36 @@ public interface UserService extends IService<User> {
 
     /**
      * 分页查询用户，并获取用户的权限
+     *
+     * @return 分页查询结果为UserInfoVo
      */
-    Page<User> selectUserPageByUserRole(@NotNull Long id, PageParam param);
+    Page<UserInfoVo> selectUserPageByUserRole(@NotNull Long id, PageParam param);
+
+
+    /**
+     * 审批用户
+     *
+     * @param id 需要审批的用户id
+     * @return 是否成功
+     */
+    Boolean approveUser(@NotNull Long id);
+
+    /**
+     * 为用户更新密码
+     *
+     * @param userId              需要更新密码的用户id
+     * @param updatePasswordParam 参数
+     * @return 是否成功
+     */
+    Boolean updatePasswordForUser(@NotNull Long userId, UpdatePasswordParam updatePasswordParam);
+
+
+    /**
+     * 删除用户，通过用户id，对于不同的用户角色
+     *
+     * @param userId 需要删除的用户id
+     * @param opUserId 操作的用户id
+     * @return
+     */
+    Boolean deleteUserByUserIdForDifferentRoles(@NotNull Long userId, @NotNull Long opUserId);
 }

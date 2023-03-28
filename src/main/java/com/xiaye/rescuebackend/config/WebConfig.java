@@ -15,6 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/auth/login")//释放登陆接口
                 .excludePathPatterns("/auth/register")//释放注册接口
+                .excludePathPatterns("/favicon.ico")
                 .excludePathPatterns("/**/doc.*",
                         "/**/swagger-ui.*",
                         "/**/swagger-resources",

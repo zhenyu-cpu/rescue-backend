@@ -10,6 +10,7 @@ import com.xiaye.rescuebackend.model.User;
 import com.xiaye.rescuebackend.service.AuthService;
 import com.xiaye.rescuebackend.service.CompanyService;
 import com.xiaye.rescuebackend.service.UserService;
+import com.xiaye.rescuebackend.types.CreditEnum;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import com.xiaye.rescuebackend.types.RoleNameEnum;
 import com.xiaye.rescuebackend.types.UserApprovedEnum;
@@ -17,6 +18,7 @@ import com.xiaye.rescuebackend.vo.AuthInfoVo;
 import com.xiaye.rescuebackend.vo.RegisterParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthServiceIml implements AuthService {
@@ -35,6 +37,10 @@ public class AuthServiceIml implements AuthService {
             throw ExceptionFactory.createException(ResultCodeEnum.PARAM_VERIFY_ERROR);
         }
         User currentUser = userService.selectUserByPhoneNumberAndApproved(phoneNumber);
+
+        if (ObjectUtil.isEmpty(currentUser)){
+            throw ExceptionFactory.createAuthException(ResultCodeEnum.USER_AUTH_ERROR);
+        }
         //校验密码
         if (!verifyPassword(password, currentUser.getPassword())) {
             throw ExceptionFactory.createException(ResultCodeEnum.USER_AUTH_ERROR);
@@ -50,7 +56,8 @@ public class AuthServiceIml implements AuthService {
     }
 
     @Override
-    public String register(RegisterParam param){
+    @Transactional
+    public String register(RegisterParam param) {
         //保证手机号不存在数据库中
         if (userService.exitUserByPhoneNumber(param.getPhoneNumber())) {
             throw ExceptionFactory.createAuthException(ResultCodeEnum.USER_REGISTER_ERROR);
@@ -64,9 +71,12 @@ public class AuthServiceIml implements AuthService {
         company.setName(param.getCompanyName());
         company.setAddress(param.getCompanyAddress());
         company.setCode(param.getCompanyCreditCode());
+        //初始化公司信用
+        company.setCredit(CreditEnum.INITIAL_CREDIT.getValue().longValue());
         companyService.save(company);
         //在数据库中插入用户信息，并返回用户id
         User user = new User();
+        user.setUsername(param.getUsername());
         user.setUserPhone(param.getPhoneNumber());
         user.setPassword(param.getPassword());
         user.setApproved(UserApprovedEnum.UNAUDITED.getValue());
