@@ -1,13 +1,11 @@
 package com.xiaye.rescuebackend.vo;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.XCloudDialect;
 import com.xiaye.rescuebackend.model.CreditApply;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
 import java.util.Date;
 import java.util.Optional;
 
@@ -51,7 +49,6 @@ public class CreditApplySaveParam {
         Optional.ofNullable(item.getMessage()).ifPresent(result::setMessage);
         Optional.ofNullable(item.getChangeMessage()).ifPresent(result::setChangeMessage);
         Optional.ofNullable(item.getPromiseMessage()).ifPresent(result::setPromiseMessage);
-        Optional.ofNullable(item.getApplyTime()).ifPresent();
         return result;
     }
 }
