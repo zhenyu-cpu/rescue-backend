@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/serve")
@@ -33,7 +34,13 @@ public class ServeController {
 
     @Operation(summary = "删除消防服务预约",description = "只能由管理员权限才能操作")
     @DeleteMapping("/del")
-    public ResultVo<Object> deleteServe(){
+    public ResultVo<Object> deleteServe(@Valid @NotNull Long id){
+        return ResultVo.builder().build();
+    }
+
+    @Operation(summary = "公司所有的消防服务预约")
+    @PostMapping("/companyServes")
+    public ResultVo<Object> companyServes(@Valid @NotNull Long companyId){
         return ResultVo.builder().build();
     }
 }

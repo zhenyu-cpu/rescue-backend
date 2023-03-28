@@ -1,9 +1,14 @@
 package com.xiaye.rescuebackend.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xiaye.rescuebackend.model.CreditRecord;
+import com.xiaye.rescuebackend.service.CreditRecordService;
+import com.xiaye.rescuebackend.vo.PageParam;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,22 +18,34 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/creditRecord")
 @Tag(name = "信用记录管理")
 public class CreditRecordController {
+    private final CreditRecordService creditRecordService;
+
+    @Autowired
+    public CreditRecordController(CreditRecordService creditRecordService) {
+        this.creditRecordService = creditRecordService;
+    }
+
     @Operation(summary = "分页获取所有")
     @PostMapping("/list")
-    public ResultVo<Object> listCreditRecords(){
-        return ResultVo.builder().build();
+    public ResultVo<Object> listCreditRecords(@Valid PageParam pageParam){
+        Page<CreditRecord> creditRecordPage = creditRecordService.page(PageParam.to(pageParam));
+        return ResultVo.success(creditRecordPage);
     }
 
     @Operation(summary = "获取信用记录详情")
     @PostMapping("/get")
     public ResultVo<Object> getCreditRecord(@Valid @NotNull Long id){
-        return ResultVo.builder().build();
+        CreditRecord creditRecord = creditRecordService.getById(id);
+        return ResultVo.success(creditRecord);
     }
 
     @Operation(summary = "删除信用记录")
     @DeleteMapping("/delete")
     public ResultVo<Object> deleteCreditRecord(@Valid @NotNull Long id){
-        return ResultVo.builder().build();
+        if (!creditRecordService.removeById(id)){
+            return ResultVo.error("信用记录删除失败");
+        }
+        return ResultVo.success("信用记录删除成功");
     }
 
     @Operation(summary = "更新信用记录")
