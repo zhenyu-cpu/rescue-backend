@@ -1,40 +1,41 @@
 package com.xiaye.rescuebackend.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import lombok.Data;
 
 /**
  * 信用申请表
+ *
  * @TableName credit_apply
  */
-@TableName(value ="credit_apply")
+@TableName(value = "credit_apply")
 @Data
 public class CreditApply implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(value = "id")
     private Long id;
 
     /**
-     * 
+     *
      */
     @TableField(value = "company_id")
     private Long companyId;
 
     /**
-     * 
+     *
      */
     @TableField(value = "applyuser_name")
     private String applyuserName;
 
     /**
-     * 
+     *
      */
     @TableField(value = "applyuser_phone")
     private String applyuserPhone;
