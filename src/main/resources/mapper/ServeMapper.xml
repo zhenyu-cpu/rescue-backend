@@ -37,31 +37,31 @@
         ( id,company_id,serve_location
         ,douser_name,douser_phone,state
         ,create_time,reject_message)
-        values (#{id,jdbcType=BIGINT},#{company_id,jdbcType=BIGINT},#{serve_location,jdbcType=VARCHAR}
-        ,#{douser_name,jdbcType=VARCHAR},#{douser_phone,jdbcType=VARCHAR},#{state,jdbcType=TINYINT}
-        ,#{create_time,jdbcType=TIMESTAMP},#{reject_message,jdbcType=VARCHAR})
+        values (#{id,jdbcType=BIGINT},#{companyId,jdbcType=BIGINT},#{serveLocation,jdbcType=VARCHAR}
+        ,#{douserName,jdbcType=VARCHAR},#{douserPhone,jdbcType=VARCHAR},#{state,jdbcType=TINYINT}
+        ,#{createTime,jdbcType=TIMESTAMP},#{rejectMessage,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective">
         insert into serve
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
-                <if test="company_id != null">company_id,</if>
-                <if test="serve_location != null">serve_location,</if>
-                <if test="douser_name != null">douser_name,</if>
-                <if test="douser_phone != null">douser_phone,</if>
+                <if test="companyId != null">company_id,</if>
+                <if test="serveLocation != null">serve_location,</if>
+                <if test="douserName != null">douser_name,</if>
+                <if test="douserPhone != null">douser_phone,</if>
                 <if test="state != null">state,</if>
-                <if test="create_time != null">create_time,</if>
-                <if test="reject_message != null">reject_message,</if>
+                <if test="createTime != null">create_time,</if>
+                <if test="rejectMessage != null">reject_message,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
-                <if test="company_id != null">#{company_id,jdbcType=BIGINT},</if>
-                <if test="serve_location != null">#{serve_location,jdbcType=VARCHAR},</if>
-                <if test="douser_name != null">#{douser_name,jdbcType=VARCHAR},</if>
-                <if test="douser_phone != null">#{douser_phone,jdbcType=VARCHAR},</if>
+                <if test="companyId != null">#{companyId,jdbcType=BIGINT},</if>
+                <if test="serveLocation != null">#{serveLocation,jdbcType=VARCHAR},</if>
+                <if test="douserName != null">#{douserName,jdbcType=VARCHAR},</if>
+                <if test="douserPhone != null">#{douserPhone,jdbcType=VARCHAR},</if>
                 <if test="state != null">#{state,jdbcType=TINYINT},</if>
-                <if test="create_time != null">#{create_time,jdbcType=TIMESTAMP},</if>
-                <if test="reject_message != null">#{reject_message,jdbcType=VARCHAR},</if>
+                <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+                <if test="rejectMessage != null">#{rejectMessage,jdbcType=VARCHAR},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.xiaye.rescuebackend.model.Serve">
@@ -70,26 +70,26 @@
                 <if test="id != null">
                     id = #{id,jdbcType=BIGINT},
                 </if>
-                <if test="company_id != null">
-                    company_id = #{company_id,jdbcType=BIGINT},
+                <if test="companyId != null">
+                    company_id = #{companyId,jdbcType=BIGINT},
                 </if>
-                <if test="serve_location != null">
-                    serve_location = #{serve_location,jdbcType=VARCHAR},
+                <if test="serveLocation != null">
+                    serve_location = #{serveLocation,jdbcType=VARCHAR},
                 </if>
-                <if test="douser_name != null">
-                    douser_name = #{douser_name,jdbcType=VARCHAR},
+                <if test="douserName != null">
+                    douser_name = #{douserName,jdbcType=VARCHAR},
                 </if>
-                <if test="douser_phone != null">
-                    douser_phone = #{douser_phone,jdbcType=VARCHAR},
+                <if test="douserPhone != null">
+                    douser_phone = #{douserPhone,jdbcType=VARCHAR},
                 </if>
                 <if test="state != null">
                     state = #{state,jdbcType=TINYINT},
                 </if>
-                <if test="create_time != null">
-                    create_time = #{create_time,jdbcType=TIMESTAMP},
+                <if test="createTime != null">
+                    create_time = #{createTime,jdbcType=TIMESTAMP},
                 </if>
-                <if test="reject_message != null">
-                    reject_message = #{reject_message,jdbcType=VARCHAR},
+                <if test="rejectMessage != null">
+                    reject_message = #{rejectMessage,jdbcType=VARCHAR},
                 </if>
         </set>
         where  

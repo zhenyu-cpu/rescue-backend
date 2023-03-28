@@ -31,35 +31,35 @@
         insert into user_news
         ( id,user_id,news_id
         ,read_flag)
-        values (#{id,jdbcType=BIGINT},#{user_id,jdbcType=BIGINT},#{news_id,jdbcType=BIGINT}
-        ,#{read_flag,jdbcType=TINYINT})
+        values (#{id,jdbcType=BIGINT},#{userId,jdbcType=BIGINT},#{newsId,jdbcType=BIGINT}
+        ,#{readFlag,jdbcType=TINYINT})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.UserNews" useGeneratedKeys="true">
         insert into user_news
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
-                <if test="user_id != null">user_id,</if>
-                <if test="news_id != null">news_id,</if>
-                <if test="read_flag != null">read_flag,</if>
+                <if test="userId != null">user_id,</if>
+                <if test="newsId != null">news_id,</if>
+                <if test="readFlag != null">read_flag,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
-                <if test="user_id != null">#{user_id,jdbcType=BIGINT},</if>
-                <if test="news_id != null">#{news_id,jdbcType=BIGINT},</if>
-                <if test="read_flag != null">#{read_flag,jdbcType=TINYINT},</if>
+                <if test="userId != null">#{userId,jdbcType=BIGINT},</if>
+                <if test="newsId != null">#{newsId,jdbcType=BIGINT},</if>
+                <if test="readFlag != null">#{readFlag,jdbcType=TINYINT},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.xiaye.rescuebackend.model.UserNews">
         update user_news
         <set>
-                <if test="user_id != null">
-                    user_id = #{user_id,jdbcType=BIGINT},
+                <if test="userId != null">
+                    user_id = #{userId,jdbcType=BIGINT},
                 </if>
-                <if test="news_id != null">
-                    news_id = #{news_id,jdbcType=BIGINT},
+                <if test="newsId != null">
+                    news_id = #{newsId,jdbcType=BIGINT},
                 </if>
-                <if test="read_flag != null">
-                    read_flag = #{read_flag,jdbcType=TINYINT},
+                <if test="readFlag != null">
+                    read_flag = #{readFlag,jdbcType=TINYINT},
                 </if>
         </set>
         where   id = #{id,jdbcType=BIGINT} 
@@ -67,9 +67,9 @@
     <update id="updateByPrimaryKey" parameterType="com.xiaye.rescuebackend.model.UserNews">
         update user_news
         set 
-            user_id =  #{user_id,jdbcType=BIGINT},
-            news_id =  #{news_id,jdbcType=BIGINT},
-            read_flag =  #{read_flag,jdbcType=TINYINT}
+            user_id =  #{userId,jdbcType=BIGINT},
+            news_id =  #{newsId,jdbcType=BIGINT},
+            read_flag =  #{readFlag,jdbcType=TINYINT}
         where   id = #{id,jdbcType=BIGINT} 
     </update>
 </mapper>

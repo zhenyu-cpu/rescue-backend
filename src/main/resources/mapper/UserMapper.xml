@@ -48,8 +48,8 @@
         ( id,username,user_phone
         ,password,company_id,role
         ,approved)
-        values (#{id,jdbcType=BIGINT},#{username,jdbcType=VARCHAR},#{user_phone,jdbcType=VARCHAR}
-        ,#{password,jdbcType=VARCHAR},#{company_id,jdbcType=BIGINT},#{role,jdbcType=VARCHAR}
+        values (#{id,jdbcType=BIGINT},#{username,jdbcType=VARCHAR},#{userPhone,jdbcType=VARCHAR}
+        ,#{password,jdbcType=VARCHAR},#{companyId,jdbcType=BIGINT},#{role,jdbcType=VARCHAR}
         ,#{approved,jdbcType=TINYINT})
     </insert>
     <insert id="insertSelective">
@@ -57,18 +57,18 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
                 <if test="username != null">username,</if>
-                <if test="user_phone != null">user_phone,</if>
+                <if test="userPhone != null">user_phone,</if>
                 <if test="password != null">password,</if>
-                <if test="company_id != null">company_id,</if>
+                <if test="companyId != null">company_id,</if>
                 <if test="role != null">role,</if>
                 <if test="approved != null">approved,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
                 <if test="username != null">#{username,jdbcType=VARCHAR},</if>
-                <if test="user_phone != null">#{user_phone,jdbcType=VARCHAR},</if>
+                <if test="userPhone != null">#{userPhone,jdbcType=VARCHAR},</if>
                 <if test="password != null">#{password,jdbcType=VARCHAR},</if>
-                <if test="company_id != null">#{company_id,jdbcType=BIGINT},</if>
+                <if test="companyId != null">#{companyId,jdbcType=BIGINT},</if>
                 <if test="role != null">#{role,jdbcType=VARCHAR},</if>
                 <if test="approved != null">#{approved,jdbcType=TINYINT},</if>
         </trim>
@@ -82,14 +82,14 @@
                 <if test="username != null">
                     username = #{username,jdbcType=VARCHAR},
                 </if>
-                <if test="user_phone != null">
-                    user_phone = #{user_phone,jdbcType=VARCHAR},
+                <if test="userPhone != null">
+                    user_phone = #{userPhone,jdbcType=VARCHAR},
                 </if>
                 <if test="password != null">
                     password = #{password,jdbcType=VARCHAR},
                 </if>
-                <if test="company_id != null">
-                    company_id = #{company_id,jdbcType=BIGINT},
+                <if test="companyId != null">
+                    company_id = #{companyId,jdbcType=BIGINT},
                 </if>
                 <if test="role != null">
                     role = #{role,jdbcType=VARCHAR},
@@ -105,9 +105,9 @@
         set 
             id =  #{id,jdbcType=BIGINT},
             username =  #{username,jdbcType=VARCHAR},
-            user_phone =  #{user_phone,jdbcType=VARCHAR},
+            user_phone =  #{userPhone,jdbcType=VARCHAR},
             password =  #{password,jdbcType=VARCHAR},
-            company_id =  #{company_id,jdbcType=BIGINT},
+            company_id =  #{companyId,jdbcType=BIGINT},
             role =  #{role,jdbcType=VARCHAR},
             approved =  #{approved,jdbcType=TINYINT}
         where  

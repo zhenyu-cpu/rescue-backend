@@ -41,36 +41,36 @@
         ,applyuser_phone,apply_time,message
         ,change_message,promise_message,state
         ,reject_message)
-        values (#{id,jdbcType=BIGINT},#{company_id,jdbcType=BIGINT},#{applyuser_name,jdbcType=VARCHAR}
-        ,#{applyuser_phone,jdbcType=VARCHAR},#{apply_time,jdbcType=TIMESTAMP},#{message,jdbcType=VARCHAR}
-        ,#{change_message,jdbcType=VARCHAR},#{promise_message,jdbcType=VARCHAR},#{state,jdbcType=BIGINT}
-        ,#{reject_message,jdbcType=VARCHAR})
+        values (#{id,jdbcType=BIGINT},#{companyId,jdbcType=BIGINT},#{applyuserName,jdbcType=VARCHAR}
+        ,#{applyuser_Phone,jdbcType=VARCHAR},#{applyTime,jdbcType=TIMESTAMP},#{message,jdbcType=VARCHAR}
+        ,#{changeMessage,jdbcType=VARCHAR},#{promiseMessage,jdbcType=VARCHAR},#{state,jdbcType=BIGINT}
+        ,#{rejectMessage,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective">
         insert into credit_apply
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
-                <if test="company_id != null">company_id,</if>
-                <if test="applyuser_name != null">applyuser_name,</if>
-                <if test="applyuser_phone != null">applyuser_phone,</if>
-                <if test="apply_time != null">apply_time,</if>
+                <if test="companyId != null">company_id,</if>
+                <if test="applyuserName != null">applyuser_name,</if>
+                <if test="applyuser_Phone != null">applyuser_phone,</if>
+                <if test="applyTime != null">apply_time,</if>
                 <if test="message != null">message,</if>
-                <if test="change_message != null">change_message,</if>
-                <if test="promise_message != null">promise_message,</if>
+                <if test="changeMessage != null">change_message,</if>
+                <if test="promiseMessage != null">promise_message,</if>
                 <if test="state != null">state,</if>
-                <if test="reject_message != null">reject_message,</if>
+                <if test="rejectMessage != null">reject_message,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
-                <if test="company_id != null">#{company_id,jdbcType=BIGINT},</if>
-                <if test="applyuser_name != null">#{applyuser_name,jdbcType=VARCHAR},</if>
-                <if test="applyuser_phone != null">#{applyuser_phone,jdbcType=VARCHAR},</if>
-                <if test="apply_time != null">#{apply_time,jdbcType=TIMESTAMP},</if>
+                <if test="companyId != null">#{companyId,jdbcType=BIGINT},</if>
+                <if test="applyuserName != null">#{applyuserName,jdbcType=VARCHAR},</if>
+                <if test="applyuser_Phone != null">#{applyuser_Phone,jdbcType=VARCHAR},</if>
+                <if test="applyTime != null">#{applyTime,jdbcType=TIMESTAMP},</if>
                 <if test="message != null">#{message,jdbcType=VARCHAR},</if>
-                <if test="change_message != null">#{change_message,jdbcType=VARCHAR},</if>
-                <if test="promise_message != null">#{promise_message,jdbcType=VARCHAR},</if>
+                <if test="changeMessage != null">#{changeMessage,jdbcType=VARCHAR},</if>
+                <if test="promiseMessage != null">#{promiseMessage,jdbcType=VARCHAR},</if>
                 <if test="state != null">#{state,jdbcType=BIGINT},</if>
-                <if test="reject_message != null">#{reject_message,jdbcType=VARCHAR},</if>
+                <if test="rejectMessage != null">#{rejectMessage,jdbcType=VARCHAR},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.xiaye.rescuebackend.model.CreditApply">
@@ -79,32 +79,32 @@
                 <if test="id != null">
                     id = #{id,jdbcType=BIGINT},
                 </if>
-                <if test="company_id != null">
-                    company_id = #{company_id,jdbcType=BIGINT},
+                <if test="companyId != null">
+                    company_id = #{companyId,jdbcType=BIGINT},
                 </if>
-                <if test="applyuser_name != null">
-                    applyuser_name = #{applyuser_name,jdbcType=VARCHAR},
+                <if test="applyuserName != null">
+                    applyuser_name = #{applyuserName,jdbcType=VARCHAR},
                 </if>
-                <if test="applyuser_phone != null">
-                    applyuser_phone = #{applyuser_phone,jdbcType=VARCHAR},
+                <if test="applyuser_Phone != null">
+                    applyuser_phone = #{applyuser_Phone,jdbcType=VARCHAR},
                 </if>
-                <if test="apply_time != null">
-                    apply_time = #{apply_time,jdbcType=TIMESTAMP},
+                <if test="applyTime != null">
+                    apply_time = #{applyTime,jdbcType=TIMESTAMP},
                 </if>
                 <if test="message != null">
                     message = #{message,jdbcType=VARCHAR},
                 </if>
-                <if test="change_message != null">
-                    change_message = #{change_message,jdbcType=VARCHAR},
+                <if test="changeMessage != null">
+                    change_message = #{changeMessage,jdbcType=VARCHAR},
                 </if>
-                <if test="promise_message != null">
-                    promise_message = #{promise_message,jdbcType=VARCHAR},
+                <if test="promiseMessage != null">
+                    promise_message = #{promiseMessage,jdbcType=VARCHAR},
                 </if>
                 <if test="state != null">
                     state = #{state,jdbcType=BIGINT},
                 </if>
-                <if test="reject_message != null">
-                    reject_message = #{reject_message,jdbcType=VARCHAR},
+                <if test="rejectMessage != null">
+                    reject_message = #{rejectMessage,jdbcType=VARCHAR},
                 </if>
         </set>
         where  
@@ -113,15 +113,15 @@
         update credit_apply
         set 
             id =  #{id,jdbcType=BIGINT},
-            company_id =  #{company_id,jdbcType=BIGINT},
-            applyuser_name =  #{applyuser_name,jdbcType=VARCHAR},
-            applyuser_phone =  #{applyuser_phone,jdbcType=VARCHAR},
-            apply_time =  #{apply_time,jdbcType=TIMESTAMP},
+            company_id =  #{companyId,jdbcType=BIGINT},
+            applyuser_name =  #{applyuserName,jdbcType=VARCHAR},
+            applyuser_phone =  #{applyuser_Phone,jdbcType=VARCHAR},
+            apply_time =  #{applyTime,jdbcType=TIMESTAMP},
             message =  #{message,jdbcType=VARCHAR},
-            change_message =  #{change_message,jdbcType=VARCHAR},
-            promise_message =  #{promise_message,jdbcType=VARCHAR},
+            change_message =  #{changeMessage,jdbcType=VARCHAR},
+            promise_message =  #{promiseMessage,jdbcType=VARCHAR},
             state =  #{state,jdbcType=BIGINT},
-            reject_message =  #{reject_message,jdbcType=VARCHAR}
+            reject_message =  #{rejectMessage,jdbcType=VARCHAR}
         where  
     </update>
 </mapper>

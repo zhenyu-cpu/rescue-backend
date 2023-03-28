@@ -13,18 +13,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company>implements CompanyService {
     @Override
-    public Company selectByCompanyCode(String companyCode) throws ParamExceptions{
+    public Company selectByCompanyCode(String companyCode) throws ParamExceptions {
         if (StrUtil.isEmpty(companyCode)) {
             throw ExceptionFactory.createParamException(ResultCodeEnum.PARAM_VERIFY_ERROR);
         }
         return baseMapper.selectByCode(companyCode);
     }
 
+
     @Override
     public Boolean exitCompanyByCompanyCode(String companyCode) {
         if (StrUtil.isEmpty(companyCode)) {
             throw ExceptionFactory.createParamException(ResultCodeEnum.PARAM_VERIFY_ERROR);
         }
-        return this.selectByCompanyCode(companyCode) != null ? true : false;
+        return this.selectByCompanyCode(companyCode) != null;
     }
 }

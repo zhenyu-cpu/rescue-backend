@@ -26,7 +26,7 @@
     </select>
     <select id="selectByCode" resultType="com.xiaye.rescuebackend.model.Company">
         select
-        <include refid="Base_Column_List"></include>
+        <include refid="Base_Column_List"/>
         from company where code = #{code};
     </select>
 

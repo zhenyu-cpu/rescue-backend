@@ -32,7 +32,7 @@
         ( id,message,title
         ,create_time)
         values (#{id,jdbcType=BIGINT},#{message,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR}
-        ,#{create_time,jdbcType=TIMESTAMP})
+        ,#{createTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.xiaye.rescuebackend.model.Feedback" useGeneratedKeys="true">
         insert into feedback
@@ -40,13 +40,13 @@
                 <if test="id != null">id,</if>
                 <if test="message != null">message,</if>
                 <if test="title != null">title,</if>
-                <if test="create_time != null">create_time,</if>
+                <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
                 <if test="message != null">#{message,jdbcType=VARCHAR},</if>
                 <if test="title != null">#{title,jdbcType=VARCHAR},</if>
-                <if test="create_time != null">#{create_time,jdbcType=TIMESTAMP},</if>
+                <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.xiaye.rescuebackend.model.Feedback">
@@ -58,8 +58,8 @@
                 <if test="title != null">
                     title = #{title,jdbcType=VARCHAR},
                 </if>
-                <if test="create_time != null">
-                    create_time = #{create_time,jdbcType=TIMESTAMP},
+                <if test="createTime != null">
+                    create_time = #{createTime,jdbcType=TIMESTAMP},
                 </if>
         </set>
         where   id = #{id,jdbcType=BIGINT} 
@@ -69,7 +69,7 @@
         set 
             message =  #{message,jdbcType=VARCHAR},
             title =  #{title,jdbcType=VARCHAR},
-            create_time =  #{create_time,jdbcType=TIMESTAMP}
+            create_time =  #{createTime,jdbcType=TIMESTAMP}
         where   id = #{id,jdbcType=BIGINT} 
     </update>
 </mapper>

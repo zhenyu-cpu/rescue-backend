@@ -34,25 +34,25 @@
         ( id,company_id,credit_pre
         ,credit_next,state,message
         )
-        values (#{id,jdbcType=BIGINT},#{company_id,jdbcType=BIGINT},#{credit_pre,jdbcType=BIGINT}
-        ,#{credit_next,jdbcType=BIGINT},#{state,jdbcType=BIGINT},#{message,jdbcType=VARCHAR}
+        values (#{id,jdbcType=BIGINT},#{companyId,jdbcType=BIGINT},#{creditPre,jdbcType=BIGINT}
+        ,#{creditNext,jdbcType=BIGINT},#{state,jdbcType=BIGINT},#{message,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective">
         insert into credit_record
         <trim prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id != null">id,</if>
-                <if test="company_id != null">company_id,</if>
-                <if test="credit_pre != null">credit_pre,</if>
-                <if test="credit_next != null">credit_next,</if>
+                <if test="companyId != null">company_id,</if>
+                <if test="creditPre != null">credit_pre,</if>
+                <if test="creditNext != null">credit_next,</if>
                 <if test="state != null">state,</if>
                 <if test="message != null">message,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
-                <if test="company_id != null">#{company_id,jdbcType=BIGINT},</if>
-                <if test="credit_pre != null">#{credit_pre,jdbcType=BIGINT},</if>
-                <if test="credit_next != null">#{credit_next,jdbcType=BIGINT},</if>
+                <if test="companyId != null">#{companyId,jdbcType=BIGINT},</if>
+                <if test="creditPre != null">#{creditPre,jdbcType=BIGINT},</if>
+                <if test="creditNext != null">#{creditNext,jdbcType=BIGINT},</if>
                 <if test="state != null">#{state,jdbcType=BIGINT},</if>
                 <if test="message != null">#{message,jdbcType=VARCHAR},</if>
         </trim>
@@ -63,14 +63,14 @@
                 <if test="id != null">
                     id = #{id,jdbcType=BIGINT},
                 </if>
-                <if test="company_id != null">
-                    company_id = #{company_id,jdbcType=BIGINT},
+                <if test="companyId != null">
+                    company_id = #{companyId,jdbcType=BIGINT},
                 </if>
-                <if test="credit_pre != null">
-                    credit_pre = #{credit_pre,jdbcType=BIGINT},
+                <if test="creditPre != null">
+                    credit_pre = #{creditPre,jdbcType=BIGINT},
                 </if>
-                <if test="credit_next != null">
-                    credit_next = #{credit_next,jdbcType=BIGINT},
+                <if test="creditNext != null">
+                    credit_next = #{creditNext,jdbcType=BIGINT},
                 </if>
                 <if test="state != null">
                     state = #{state,jdbcType=BIGINT},
@@ -85,9 +85,9 @@
         update credit_record
         set 
             id =  #{id,jdbcType=BIGINT},
-            company_id =  #{company_id,jdbcType=BIGINT},
-            credit_pre =  #{credit_pre,jdbcType=BIGINT},
-            credit_next =  #{credit_next,jdbcType=BIGINT},
+            company_id =  #{companyId,jdbcType=BIGINT},
+            credit_pre =  #{creditPre,jdbcType=BIGINT},
+            credit_next =  #{creditNext,jdbcType=BIGINT},
             state =  #{state,jdbcType=BIGINT},
             message =  #{message,jdbcType=VARCHAR}
         where  

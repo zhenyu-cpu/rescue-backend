@@ -14,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SaInterceptor(handle -> StpUtil.checkLogin()))
                 .addPathPatterns("/**")
                 .excludePathPatterns("/auth/login")//释放登陆接口
+                .excludePathPatterns("/auth/register")//释放注册接口
                 .excludePathPatterns("/**/doc.*",
                         "/**/swagger-ui.*",
                         "/**/swagger-resources",

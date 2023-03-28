@@ -1,6 +1,7 @@
 package com.xiaye.rescuebackend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaye.rescuebackend.model.User;
 
 /**
@@ -36,4 +37,5 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     User selectByUserPhone(String phoneNumber);
+
 }
