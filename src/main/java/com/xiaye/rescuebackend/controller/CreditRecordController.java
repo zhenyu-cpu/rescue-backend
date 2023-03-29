@@ -8,6 +8,7 @@ import com.xiaye.rescuebackend.vo.PageParam;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,14 +35,14 @@ public class CreditRecordController {
 
     @Operation(summary = "获取信用记录详情")
     @PostMapping("/get")
-    public ResultVo<Object> getCreditRecord(@Valid @NotNull Long id){
+    public ResultVo<Object> getCreditRecord(@Valid @NotNull @Param(value = "id")  Long id){
         CreditRecord creditRecord = creditRecordService.getById(id);
         return ResultVo.success(creditRecord);
     }
 
     @Operation(summary = "删除信用记录")
     @DeleteMapping("/delete")
-    public ResultVo<Object> deleteCreditRecord(@Valid @NotNull Long id){
+    public ResultVo<Object> deleteCreditRecord(@Valid @NotNull @Param(value = "id") Long id){
         if (!creditRecordService.removeById(id)){
             return ResultVo.error("信用记录删除失败");
         }
@@ -61,7 +62,7 @@ public class CreditRecordController {
     }
 
     @PostMapping("/companyRecords")
-    public ResultVo<Object> companyCreditRecord(@Valid @NotNull Long companyId){
+    public ResultVo<Object> companyCreditRecord(@Valid @NotNull @Param(value = "id") Long companyId){
         return ResultVo.builder().build();
     }
 }

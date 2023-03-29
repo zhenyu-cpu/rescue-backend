@@ -11,7 +11,7 @@ import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company>implements CompanyService {
+public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> implements CompanyService {
     @Override
     public Company selectByCompanyCode(String companyCode) throws ParamExceptions {
         if (StrUtil.isEmpty(companyCode)) {

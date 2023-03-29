@@ -56,10 +56,10 @@ public class FeedbackController {
     @DeleteMapping("/delete")
     public ResultVo<String> delete(@Valid @NotBlank @Param(value = "id") Long id){
        boolean result =  feedbackService.removeById(id);
-       if (result){
-           return ResultVo.success("删除反馈信息成功");
+       if (!result){
+           return ResultVo.error("删除反馈信息失败");
        }
-       return ResultVo.success("删除反馈信息失败");
+       return ResultVo.success("删除反馈信息成功");
     }
 
     @Operation(summary = "分页查询反馈信息",method = "POST")

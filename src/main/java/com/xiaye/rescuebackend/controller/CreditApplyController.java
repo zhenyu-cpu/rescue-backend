@@ -7,6 +7,7 @@ import com.xiaye.rescuebackend.vo.PageParam;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,21 +25,21 @@ public class CreditApplyController {
 
     @Operation(summary = "分页获取信用申请列表")
     @PostMapping("/list")
-    public ResultVo<Object> listCreditApplies(@Valid PageParam param) {
+    public ResultVo<Object> listCreditApplies(@Valid @RequestBody PageParam param) {
         Page<CreditApply> creditApplyPage = creditApplyService.page(PageParam.to(param));
         return ResultVo.success(creditApplyPage);
     }
 
     @Operation(summary = "获取信用申请详情", description = "通过id")
     @PostMapping("/get")
-    public ResultVo<Object> getCreditApply(@Valid @NotNull Long id) {
+    public ResultVo<Object> getCreditApply(@Valid @NotNull @Param(value = "id") Long id) {
         CreditApply creditApply = creditApplyService.getById(id);
         return ResultVo.success(creditApply);
     }
 
     @Operation(summary = "删除信用申请记录", description = "通过id")
     @DeleteMapping("/delete")
-    public ResultVo<Object> deleteCreditApply(@Valid @NotNull Long id) {
+    public ResultVo<Object> deleteCreditApply(@Valid @NotNull @Param(value = "id") Long id) {
         if (!creditApplyService.removeById(id)) {
             return ResultVo.error("删除信用申请记录失败");
         }
@@ -53,7 +54,7 @@ public class CreditApplyController {
 
     @Operation(summary = "获取公司的信用申请记录", description = "根据公司id，获取公司的所有信用申请记录")
     @PostMapping("/companyApplies")
-    public ResultVo<Object> getByCompanyId(@Valid @NotNull Long companyId) {
+    public ResultVo<Object> getByCompanyId(@Valid @NotNull @Param(value = "id") Long companyId) {
         return ResultVo.builder().build();
     }
 }

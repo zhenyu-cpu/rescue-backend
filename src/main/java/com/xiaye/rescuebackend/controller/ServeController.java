@@ -16,7 +16,7 @@ public class ServeController {
 
     @Operation(summary = "分页获取消防服务预约列表")
     @PostMapping("/list")
-    public ResultVo<Object> listServeInfo(@Valid PageParam pageParam){
+    public ResultVo<Object> listServeInfo(@Valid @RequestBody PageParam pageParam){
         return ResultVo.builder().build();
     }
 
@@ -34,13 +34,13 @@ public class ServeController {
 
     @Operation(summary = "删除消防服务预约",description = "只能由管理员权限才能操作")
     @DeleteMapping("/del")
-    public ResultVo<Object> deleteServe(@Valid @NotNull Long id){
+    public ResultVo<Object> deleteServe(@Valid @NotNull @RequestBody Long id){
         return ResultVo.builder().build();
     }
 
     @Operation(summary = "公司所有的消防服务预约")
     @PostMapping("/companyServes")
-    public ResultVo<Object> companyServes(@Valid @NotNull Long companyId){
+    public ResultVo<Object> companyServes(@Valid @NotNull @RequestBody Long companyId){
         return ResultVo.builder().build();
     }
 }

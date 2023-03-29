@@ -1,34 +1,48 @@
-name: Build and push Docker image
+name: Deploy with docker
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    # 分支
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
-  build-and-push:
+  compile:
     runs-on: ubuntu-latest
-    env:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/rescue-backend
     steps:
-
-    - uses: actions/checkout@v3
-      name: Checkout code
-
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ env.DOCKER_USERNAME }}
-        password: ${{ env.DOCKER_PASSWORD }}
-
-    - name: Build Docker image
-      run: |
-        TAG=`${{GITHUB_REF#refs/*/}}`
-        docker build -t ${{ env.IMAGE_NAME }}:${TAG} .
-
-    - name: Push Docker image
-      run: |
-        TAG=`${{GITHUB_REF#refs/*/}}`
-        docker push ${{ env.IMAGE_NAME }}:${TAG}
+      - uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'oracle'
+      # maven缓存，不加的话每次都会去重新拉取，会影响速度
+      - name: Dependies Cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      # 编译打包
+      - name: Build with Maven
+        run: mvn package -Dmaven.test.skip=true
+      # 登录Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+      # build 镜像并push到中央仓库中
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/rescue-backend:latest
