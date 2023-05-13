@@ -1,28 +1,29 @@
 package com.xiaye.rescuebackend.vo;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class PageParam {
-    @javax.validation.constraints.NotNull
+    @NotNull
     private Integer currentPage;
-    @javax.validation.constraints.NotNull
+    @NotNull
     private Integer pageSize;
 
-    @NotNull
-    public static PageParam of(@NotNull Page item) {
+    public static PageParam of(Page item) {
         PageParam result = new PageParam();
         result.setCurrentPage(Math.toIntExact(item.getCurrent()));
         result.setPageSize(Math.toIntExact(item.getSize()));
         return result;
     }
 
-    @NotNull
-    public static <T> Page<T> to(@NotNull PageParam item) {
+    public static <T> Page<T> to(PageParam item) {
         Page<T> result = new Page<>();
         result.setCurrent(item.getCurrentPage());
         result.setSize(item.getPageSize());

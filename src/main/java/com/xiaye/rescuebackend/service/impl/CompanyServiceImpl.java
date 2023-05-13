@@ -15,7 +15,7 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> impl
     @Override
     public Company selectByCompanyCode(String companyCode) throws ParamExceptions {
         if (StrUtil.isEmpty(companyCode)) {
-            throw ExceptionFactory.createParamException(ResultCodeEnum.PARAM_VERIFY_ERROR);
+            throw ExceptionFactory.createParamException(ResultCodeEnum.PARAM_IS_BLANK);
         }
         return baseMapper.selectByCode(companyCode);
     }
@@ -24,7 +24,7 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> impl
     @Override
     public Boolean exitCompanyByCompanyCode(String companyCode) {
         if (StrUtil.isEmpty(companyCode)) {
-            throw ExceptionFactory.createParamException(ResultCodeEnum.PARAM_VERIFY_ERROR);
+            throw ExceptionFactory.createParamException(ResultCodeEnum.PARAM_IS_BLANK );
         }
         return this.selectByCompanyCode(companyCode) != null;
     }

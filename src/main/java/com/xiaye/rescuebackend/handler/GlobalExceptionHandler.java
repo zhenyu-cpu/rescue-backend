@@ -1,13 +1,12 @@
 package com.xiaye.rescuebackend.handler;
 
 import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotRoleException;
 import com.xiaye.rescuebackend.exception.AuthException;
-import com.xiaye.rescuebackend.exception.BaseException;
 import com.xiaye.rescuebackend.exception.ParamExceptions;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,72 +22,55 @@ public class GlobalExceptionHandler {
 
     /**
      * 权限相关异常处理
+     *
      * @param authException
      * @return
      */
     @ExceptionHandler(value = AuthException.class)
-    public ResultVo<Object> authExceptionHandler(@NotNull AuthException authException) {
-        log.error("AuthException: errorCode({}),errorMessage({})",authException.getCode(),authException.getMessage());
-        return ResultVo
-                .<Object>builder()
-                .code(authException.getCode())
-                .message(authException.getMessage())
-                .build();
+    public ResultVo authExceptionHandler(AuthException authException) {
+        log.error("AuthException: errorCode({}),errorMessage({})", authException.getCode(), authException.getMessage());
+        return ResultVo.failure(ResultCodeEnum.valueOf(authException.getCode()));
     }
 
     /**
-     * 请求校验结果处理
+     * 请求校验结果处理,主要是指定类参数限制的参数校验表格
+     *
      * @param bindException
      * @return
      */
     @ExceptionHandler(value = {BindException.class})
-    public ResultVo<Object> paramExceptionHandler(@NotNull BindException bindException){
+    public ResultVo paramExceptionHandler(BindException bindException) {
         BindingResult bindingResult = bindException.getBindingResult();
-        return ResultVo
-                .builder()
-                .code(ResultCodeEnum.PARAM_VERIFY_ERROR.code())
-                .message(ResultCodeEnum.PARAM_VERIFY_ERROR.message())
-                .data(bindingResult.getModel())
-                .build();
+        return ResultVo.failure(ResultCodeEnum.PARAM_TYPE_BIND_ERROR, bindingResult.getModel());
     }
 
     /**
-     * 持久层和服务层的参数校验错误
+     * 持久层和服务层的参数校验错误,该层最常见的就是参数为空
      */
     @ExceptionHandler(value = {ParamExceptions.class})
-    public ResultVo<Object> paramExceptionHandler(@NotNull Exception paramExceptions){
-        return ResultVo.<Object>builder()
-                .code(ResultCodeEnum.PARAM_VERIFY_ERROR.code())
-                .message(ResultCodeEnum.PARAM_VERIFY_ERROR.message())
-                .data(paramExceptions.getStackTrace())
-                .build();
+    public ResultVo paramExceptionHandler(ParamExceptions paramExceptions) {
+        return ResultVo.failure(ResultCodeEnum.valueOf(paramExceptions.getCode()));
     }
 
     /**
      * 参数校验错误，主要是视图层面
+     *
      * @param methodArgumentNotValidException
      * @return
      */
-    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public ResultVo<Object> paramExceptionHandler(MethodArgumentNotValidException methodArgumentNotValidException){
-        return ResultVo.builder()
-                .code(ResultCodeEnum.PARAM_VERIFY_ERROR.code())
-                .message(methodArgumentNotValidException.getMessage())
-                .data(methodArgumentNotValidException.getModel())
-                .build();
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class,IllegalArgumentException.class})
+    public ResultVo paramExceptionHandler(MethodArgumentNotValidException methodArgumentNotValidException) {
+        return ResultVo.failure(ResultCodeEnum.PARAM_IS_INVALID, methodArgumentNotValidException.getMessage());
     }
 
     /**
      * 不能登录异常处理
+     *
      * @param notLoginException
      * @return
      */
-    @ExceptionHandler(value = {NotLoginException.class})
-    public ResultVo<Object> notLoginExceptionHandler(@NotNull NotLoginException notLoginException){
-        return ResultVo.builder()
-                .code(notLoginException.getCode())
-                .message(notLoginException.getMessage())
-                .data(notLoginException.getStackTrace())
-                .build();
+    @ExceptionHandler(value = {NotLoginException.class, NotRoleException.class})
+    public ResultVo notLoginExceptionHandler(NotLoginException notLoginException) {
+        return ResultVo.failure(ResultCodeEnum.PERMISSION_NO_ACCESS, notLoginException.getMessage());
     }
 }

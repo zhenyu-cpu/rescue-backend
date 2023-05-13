@@ -1,18 +1,20 @@
 package com.xiaye.rescuebackend.controller;
 
 
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaye.rescuebackend.model.CreditRecord;
 import com.xiaye.rescuebackend.service.CreditRecordService;
+import com.xiaye.rescuebackend.types.ResultCodeEnum;
+import com.xiaye.rescuebackend.vo.CreditRecordParam;
 import com.xiaye.rescuebackend.vo.PageParam;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -28,41 +30,45 @@ public class CreditRecordController {
 
     @Operation(summary = "分页获取所有")
     @PostMapping("/list")
-    public ResultVo<Object> listCreditRecords(@Valid PageParam pageParam){
+    public ResultVo listCreditRecords(@RequestBody @Validated PageParam pageParam) {
         Page<CreditRecord> creditRecordPage = creditRecordService.page(PageParam.to(pageParam));
         return ResultVo.success(creditRecordPage);
     }
 
     @Operation(summary = "获取信用记录详情")
     @PostMapping("/get")
-    public ResultVo<Object> getCreditRecord(@Valid @NotNull @Param(value = "id")  Long id){
+    public ResultVo getCreditRecord(@RequestParam(name = "id", required = true) @NotNull Long id) {
         CreditRecord creditRecord = creditRecordService.getById(id);
         return ResultVo.success(creditRecord);
     }
 
     @Operation(summary = "删除信用记录")
     @DeleteMapping("/delete")
-    public ResultVo<Object> deleteCreditRecord(@Valid @NotNull @Param(value = "id") Long id){
-        if (!creditRecordService.removeById(id)){
-            return ResultVo.error("信用记录删除失败");
+    public ResultVo deleteCreditRecord(@RequestParam(name = "id", required = true) Long id) {
+        if (!creditRecordService.removeById(id)) {
+            return ResultVo.failure(ResultCodeEnum.RESULT_DATA_NONE);
         }
         return ResultVo.success("信用记录删除成功");
     }
 
-    @Operation(summary = "更新信用记录")
-    @PutMapping("/update")
-    public ResultVo<Object> updateCreditRecord(){
-        return ResultVo.builder().build();
-    }
-
-    @Operation(summary = "插入信用记录")
-    @PostMapping("/insert")
-    public ResultVo<Object> insertCreditRecord(){
-        return ResultVo.builder().build();
+    @Operation(summary = "创建和更新信用记录")
+    @PutMapping("/saveOrUpdate")
+    public ResultVo updateCreditRecord(@RequestBody @Validated CreditRecordParam creditRecordParam) {
+        if (creditRecordParam.isInsert()) {
+            creditRecordService.save(CreditRecordParam.convertToCreditRecord(creditRecordParam));
+            return ResultVo.success("插入信用记录");
+        }
+        creditRecordService.updateById(CreditRecordParam.convertToCreditRecord(creditRecordParam));
+        return ResultVo.success("更新信用记录");
     }
 
     @PostMapping("/companyRecords")
-    public ResultVo<Object> companyCreditRecord(@Valid @NotNull @Param(value = "id") Long companyId){
-        return ResultVo.builder().build();
+    @Operation(summary = "获取公司的所有信用记录表")
+    public ResultVo companyCreditRecord(@RequestBody @NotNull Long companyId,
+                                        @RequestBody @Validated PageParam pageParam) {
+        //QueryChainWrapper<CreditRecord> queryChainWrapper = creditRecordService.query();
+        LambdaQueryChainWrapper<CreditRecord> queryChainWrapper = creditRecordService.lambdaQuery();
+        Page<CreditRecord> page = creditRecordService.page(PageParam.to(pageParam), queryChainWrapper.eq(CreditRecord::getCompanyId, companyId));
+        return ResultVo.success(page);
     }
 }

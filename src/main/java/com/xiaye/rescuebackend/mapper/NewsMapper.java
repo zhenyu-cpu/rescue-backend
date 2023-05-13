@@ -1,6 +1,7 @@
 package com.xiaye.rescuebackend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaye.rescuebackend.model.News;
 
 /**
@@ -23,4 +24,5 @@ public interface NewsMapper extends BaseMapper<News> {
 
     int updateByPrimaryKey(News record);
 
+    Page<News> selectPageByUserId(Long userId);
 }

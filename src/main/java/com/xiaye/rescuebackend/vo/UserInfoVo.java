@@ -2,8 +2,9 @@ package com.xiaye.rescuebackend.vo;
 
 import com.xiaye.rescuebackend.model.Company;
 import com.xiaye.rescuebackend.model.User;
+import com.xiaye.rescuebackend.types.RoleNameEnum;
+import com.xiaye.rescuebackend.types.UserApprovedEnum;
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
 
 @Data
 public class UserInfoVo {
@@ -12,16 +13,15 @@ public class UserInfoVo {
     //手机号
     private String phoneNumber;
     //角色
-    private String role;
+    private RoleNameEnum role;
     //所属于公司
     private String company;
     //公司的id
     private Long companyId;
     //用户是否通过审批
-    private Integer approved;
+    private UserApprovedEnum approved;
 
-    @NotNull
-    public static UserInfoVo of(@NotNull User user){
+    public static UserInfoVo of(User user) {
         UserInfoVo item = new UserInfoVo();
         item.setUsername(user.getUsername());
         item.setPhoneNumber(user.getUserPhone());
@@ -31,8 +31,7 @@ public class UserInfoVo {
         return item;
     }
 
-    @NotNull
-    public static UserInfoVo of(User user, @NotNull Company company){
+    public static UserInfoVo of(User user, Company company) {
         UserInfoVo result = UserInfoVo.of(user);
         result.setCompany(company.getName());
         return result;

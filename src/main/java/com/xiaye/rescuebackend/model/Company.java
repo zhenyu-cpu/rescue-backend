@@ -1,11 +1,11 @@
 package com.xiaye.rescuebackend.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 公司表
@@ -27,7 +27,7 @@ public class Company implements Serializable {
     private String name;
 
     /**
-     * 
+     * 信用码
      */
     @TableField(value = "code")
     private String code;

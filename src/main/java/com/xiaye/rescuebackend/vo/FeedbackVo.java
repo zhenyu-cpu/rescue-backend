@@ -3,7 +3,6 @@ package com.xiaye.rescuebackend.vo;
 import cn.hutool.core.date.DateUtil;
 import com.xiaye.rescuebackend.model.Feedback;
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
@@ -16,8 +15,7 @@ public class FeedbackVo {
     private String title;
     private Date createTime;
 
-    @NotNull
-    public static FeedbackVo of(@NotNull Feedback item){
+    public static FeedbackVo of(Feedback item) {
         FeedbackVo result = new FeedbackVo();
         result.setId(item.getId());
         result.setMessage(item.getMessage());

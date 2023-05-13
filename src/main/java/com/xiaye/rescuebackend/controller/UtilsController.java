@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UtilsController {
     @Operation(summary = "随机统一社会信用代码")
     @GetMapping("/randomCODS")
-    public ResultVo<String> randomCODS() {
-        return ResultVo.success(CreditCodeUtil.randomCreditCode());
+    public ResultVo randomCODS() {
+        ResultVo result = ResultVo.success();
+        result.setData(CreditCodeUtil.randomCreditCode());
+        return result;
     }
 }

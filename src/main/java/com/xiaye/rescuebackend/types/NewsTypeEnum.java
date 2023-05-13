@@ -1,5 +1,7 @@
 package com.xiaye.rescuebackend.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,9 +14,11 @@ public enum NewsTypeEnum {
     /**
      * 消息类型名称
      */
-    private String newsTypeName;
+    @EnumValue
+    @JsonValue
+    private final String newsTypeName;
     /**
      * 消息类型描述
      */
-    private String description;
+    private final String description;
 }

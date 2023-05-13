@@ -34,37 +34,37 @@ public class AuthServiceIml implements AuthService {
     @Override
     public AuthInfoVo login(String phoneNumber, String password) throws AuthException {
         if (StrUtil.isBlank(phoneNumber) || StrUtil.isBlank(password)) {
-            throw ExceptionFactory.createException(ResultCodeEnum.PARAM_VERIFY_ERROR);
+            throw ExceptionFactory.createParamException(ResultCodeEnum.PARAM_IS_INVALID);
         }
         User currentUser = userService.selectUserByPhoneNumberAndApproved(phoneNumber);
 
         if (ObjectUtil.isEmpty(currentUser)){
-            throw ExceptionFactory.createAuthException(ResultCodeEnum.USER_AUTH_ERROR);
+            throw ExceptionFactory.createAuthException(ResultCodeEnum.USER_NOT_EXIST);
         }
         //校验密码
         if (!verifyPassword(password, currentUser.getPassword())) {
-            throw ExceptionFactory.createException(ResultCodeEnum.USER_AUTH_ERROR);
+            throw ExceptionFactory.createException(ResultCodeEnum.USER_LOGIN_ERROR);
         }
         StpUtil.login(currentUser.getId());
         return AuthInfoVo.toAuthInfoVo(currentUser, StpUtil.getTokenValue());
     }
 
     @Override
-    public String logout() {
+    public Boolean logout() {
         StpUtil.logout();
-        return ResultCodeEnum.USER_LOGOUT.message();
+        return Boolean.TRUE;
     }
 
     @Override
     @Transactional
-    public String register(RegisterParam param) {
+    public Boolean register(RegisterParam param) {
         //保证手机号不存在数据库中
         if (userService.exitUserByPhoneNumber(param.getPhoneNumber())) {
-            throw ExceptionFactory.createAuthException(ResultCodeEnum.USER_REGISTER_ERROR);
+            throw ExceptionFactory.createAuthException(ResultCodeEnum.USER_HAS_EXISTED);
         }
-        //公司信用号码
+        //通过公司信用号码保证数据唯一
         if (companyService.exitCompanyByCompanyCode(param.getCompanyCreditCode())) {
-            throw ExceptionFactory.createAuthException(ResultCodeEnum.DUPLICATE_COMPANY_REGISTRATION);
+            throw ExceptionFactory.createAuthException(ResultCodeEnum.USER_HAS_EXISTED);
         }
         //在数据库中插入公司信息，并返回公司id
         Company company = new Company();
@@ -79,11 +79,10 @@ public class AuthServiceIml implements AuthService {
         user.setUsername(param.getUsername());
         user.setUserPhone(param.getPhoneNumber());
         user.setPassword(param.getPassword());
-        user.setApproved(UserApprovedEnum.UNAUDITED.getValue());
-        user.setRole(RoleNameEnum.COMPANY_ADMIN.getRoleName());
+        user.setApproved(UserApprovedEnum.UNAUDITED);
+        user.setRole(RoleNameEnum.COMPANY_ADMIN);
         user.setCompanyId(company.getId());
-        userService.save(user);
-        return null;
+        return userService.save(user);
     }
 
     /**
@@ -94,7 +93,7 @@ public class AuthServiceIml implements AuthService {
      */
     private boolean verifyPassword(String inputPassword, String storePassword) {
         if (ObjectUtil.isEmpty(inputPassword) || ObjectUtil.isEmpty(storePassword)) {
-            throw ExceptionFactory.createParamException(ResultCodeEnum.PARAM_VERIFY_ERROR);
+            throw ExceptionFactory.createParamException(ResultCodeEnum.PARAM_IS_BLANK);
         }
         return inputPassword.equals(storePassword);
     }

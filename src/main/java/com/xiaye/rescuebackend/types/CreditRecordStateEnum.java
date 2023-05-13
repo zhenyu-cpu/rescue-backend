@@ -1,5 +1,7 @@
 package com.xiaye.rescuebackend.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,10 +13,12 @@ public enum CreditRecordStateEnum {
     /**
      * 信用状态id
      */
-    private Integer stateId;
+    @EnumValue
+    @JsonValue
+    private final Integer stateId;
 
     /**
      * 信用状态名称
      */
-    private String stateName;
+    private final String stateName;
 }

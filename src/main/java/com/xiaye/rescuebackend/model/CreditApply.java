@@ -3,6 +3,7 @@ package com.xiaye.rescuebackend.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.xiaye.rescuebackend.types.CreditApplyStateEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -68,7 +69,7 @@ public class CreditApply implements Serializable {
      * 状态 0-已申请 1-已驳回 2-已通过
      */
     @TableField(value = "state")
-    private Long state;
+    private CreditApplyStateEnum state;
 
     /**
      * 当状态为1-已驳回时才需要驳回原因

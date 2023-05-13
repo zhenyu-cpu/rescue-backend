@@ -2,12 +2,15 @@ package com.xiaye.rescuebackend.vo;
 
 
 import com.xiaye.rescuebackend.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthInfoVo implements Serializable {
     /**
      * 用户名
@@ -24,8 +27,8 @@ public class AuthInfoVo implements Serializable {
      */
     private String token;
 
-    @NotNull
-    public static AuthInfoVo toAuthInfoVo(@NotNull User user,@NotNull String token){
+
+    public static AuthInfoVo toAuthInfoVo(User user, String token){
         AuthInfoVo result = new AuthInfoVo();
         result.setUsername(user.getUsername());
         result.setPhoneNumber(user.getUserPhone());

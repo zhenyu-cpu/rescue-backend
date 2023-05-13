@@ -19,7 +19,7 @@ public interface AuthService {
      * 用于注销当前登陆的用户
      * @return 注销登陆信息
      */
-    String logout();
+    Boolean logout();
 
     /**
      * 注册用户
@@ -27,5 +27,5 @@ public interface AuthService {
      * @return 登陆后的用户信息
      * @throws AuthException 认证异常
      */
-    String register(RegisterParam param);
+    Boolean register(RegisterParam param);
 }

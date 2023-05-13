@@ -1,8 +1,10 @@
 package com.xiaye.rescuebackend.controller;
 
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaye.rescuebackend.model.Feedback;
 import com.xiaye.rescuebackend.service.FeedbackService;
+import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import com.xiaye.rescuebackend.vo.FeedbackParam;
 import com.xiaye.rescuebackend.vo.FeedbackVo;
 import com.xiaye.rescuebackend.vo.PageParam;
@@ -35,16 +37,16 @@ public class FeedbackController {
     @Parameters(value = {
             @Parameter(name = "id", description = "传入信息的id", required = true, in = ParameterIn.QUERY)
     })
-    public ResultVo<FeedbackVo> feedbackById(@Valid @NotBlank @Param(value = "id") Long id) {
+    public ResultVo feedbackById(@Valid @NotBlank @Param(value = "id") Long id) {
         FeedbackVo feedbackVo = FeedbackVo.of(feedbackService.getById(id));
         return ResultVo.success(feedbackVo);
     }
 
-    @Operation(summary = "更新或插入反馈信息",method = "PUT")
+    @Operation(summary = "更新或插入反馈信息", method = "PUT")
     @PutMapping("/saveOrUpdate")
-    public ResultVo<String> update(@Valid @RequestBody FeedbackParam feedbackParam) {
+    public ResultVo update(@Valid @RequestBody FeedbackParam feedbackParam) {
         //不是插入就保存信息
-        if (feedbackParam.isInsert()){
+        if (feedbackParam.isInsert()) {
             feedbackService.saveOrUpdate(FeedbackParam.to(feedbackParam));
             return ResultVo.success("插入信息成功");
         }
@@ -52,20 +54,21 @@ public class FeedbackController {
         return ResultVo.success("更新信息成功");
     }
 
-    @Operation(summary = "删除反馈信息",method = "DELETE")
+    @Operation(summary = "删除反馈信息", method = "DELETE")
     @DeleteMapping("/delete")
-    public ResultVo<String> delete(@Valid @NotBlank @Param(value = "id") Long id){
-       boolean result =  feedbackService.removeById(id);
-       if (!result){
-           return ResultVo.error("删除反馈信息失败");
-       }
-       return ResultVo.success("删除反馈信息成功");
+    public ResultVo delete(@Valid @NotBlank @Param(value = "id") Long id) {
+        boolean result = feedbackService.removeById(id);
+        if (!result) {
+            return ResultVo.failure(ResultCodeEnum.RESULT_DATA_NONE);
+        }
+        return ResultVo.success("删除反馈信息成功");
     }
 
-    @Operation(summary = "分页查询反馈信息",method = "POST")
+    @Operation(summary = "分页查询反馈信息", method = "POST")
     @PostMapping("/list")
-    public ResultVo<Page<Feedback>> list(@Valid @RequestBody PageParam param){
-        Page<Feedback> feedbackPage = feedbackService.page(PageParam.to(param));
+    public ResultVo list(@Valid @RequestBody PageParam param) {
+        LambdaQueryChainWrapper<Feedback> queryChainWrapper = feedbackService.lambdaQuery();
+        Page<Feedback> feedbackPage = feedbackService.page(PageParam.to(param), queryChainWrapper.orderByDesc(Feedback::getCreateTime));
         return ResultVo.success(feedbackPage);
     }
 }

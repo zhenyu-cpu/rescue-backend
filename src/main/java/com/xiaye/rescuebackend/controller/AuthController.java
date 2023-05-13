@@ -25,31 +25,22 @@ public class AuthController {
 
     @Operation(summary = "用户登录")
     @PostMapping("/login")
-    public ResultVo<AuthInfoVo> login(@RequestBody @Validated AuthParam param) {
+    public ResultVo login(@RequestBody @Validated AuthParam param) {
         AuthInfoVo authInfoVo = authService.login(param.getPhoneNumber(), param.getPassword());
-        return ResultVo.<AuthInfoVo>builder()
-                .code(ResultCodeEnum.SUCCEED.code())
-                .message(ResultCodeEnum.SUCCEED.message())
-                .data(authInfoVo)
-                .build();
+        return ResultVo.success(authInfoVo);
     }
 
-    @GetMapping("/")
-    public String test() {
-        return "test";
-    }
 
     @Operation(summary = "用户登出")
     @GetMapping("/logout")
-    public ResultVo<Object> logout() {
-        return ResultVo.success(authService.logout());
+    public ResultVo logout() {
+        return authService.logout() ? ResultVo.success() : ResultVo.failure(ResultCodeEnum.SYSTEM_INNER_ERROR);
     }
 
     //用户注册
     @Operation(summary = "用户注册")
     @PostMapping("/register")
-    public ResultVo<String> register(@RequestBody @Validated RegisterParam param) {
-        String message = authService.register(param);
-        return ResultVo.success(message);
+    public ResultVo register(@RequestBody @Validated RegisterParam param) {
+        return authService.register(param) ? ResultVo.success() : ResultVo.failure(ResultCodeEnum.SYSTEM_INNER_ERROR);
     }
 }

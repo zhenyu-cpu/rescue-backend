@@ -7,7 +7,8 @@ import com.xiaye.rescuebackend.vo.PageParam;
 import com.xiaye.rescuebackend.vo.UpdatePasswordParam;
 import com.xiaye.rescuebackend.vo.UserInfoVo;
 import com.xiaye.rescuebackend.vo.UserParam;
-import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * 用户服务
@@ -54,7 +55,7 @@ public interface UserService extends IService<User> {
      *
      * @return 分页查询结果为UserInfoVo
      */
-    Page<UserInfoVo> selectUserPageByUserRole(@NotNull Long id, PageParam param);
+    Page<UserInfoVo> selectUserPageByUserRole(Long id, PageParam param);
 
 
     /**
@@ -63,7 +64,7 @@ public interface UserService extends IService<User> {
      * @param id 需要审批的用户id
      * @return 是否成功
      */
-    Boolean approveUser(@NotNull Long id);
+    Boolean approveUser(Long id);
 
     /**
      * 为用户更新密码
@@ -72,15 +73,17 @@ public interface UserService extends IService<User> {
      * @param updatePasswordParam 参数
      * @return 是否成功
      */
-    Boolean updatePasswordForUser(@NotNull Long userId, UpdatePasswordParam updatePasswordParam);
+    Boolean updatePasswordForUser(Long userId, UpdatePasswordParam updatePasswordParam);
 
 
     /**
      * 删除用户，通过用户id，对于不同的用户角色
      *
-     * @param userId 需要删除的用户id
+     * @param userId   需要删除的用户id
      * @param opUserId 操作的用户id
      * @return
      */
-    Boolean deleteUserByUserIdForDifferentRoles(@NotNull Long userId, @NotNull Long opUserId);
+    Boolean deleteUserByUserIdForDifferentRoles(Long userId, Long opUserId);
+
+    List<User> getUserByCompanyId(Long companyId);
 }

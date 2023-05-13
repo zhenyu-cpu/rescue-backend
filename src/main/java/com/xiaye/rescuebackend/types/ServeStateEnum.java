@@ -1,5 +1,7 @@
 package com.xiaye.rescuebackend.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -15,7 +17,9 @@ public enum ServeStateEnum {
     /**
      * 服务状态id
      */
-    private Integer stateId;
+    @EnumValue
+    @JsonValue
+    private final Integer stateId;
 
     /**
      * 服务状态名

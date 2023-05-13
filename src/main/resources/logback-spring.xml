@@ -1,33 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!--彩色日志输出格式-->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%level){blue} %clr(${PID}){magenta} %clr([%thread]){orange} %clr(%logger){cyan} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <!--非彩色日志输出格式-->
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <!--定义dev文件路径和pro文件路径-->
+    <springProfile name="dev">
+        <property name="FILE_PATH" value="./logs"/>
+    </springProfile>
+
+    <springProfile name="pro">
+        <property name="FILE_PATH" value="/opt/prod/logs"/>
+    </springProfile>
+
+    <!-- 控制台输出 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d %p (%file:%line\)- %m%n</pattern>
-            <charset>UTF-8</charset>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
-    <appender name="syslog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>logs/rescue-backend.log</File>
+
+    <!-- 按照每天生成输出日志文件 -->
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <!--格式化输出：%d表示日期，%thread表示线程，%-5level：级别从左显示五个字符宽度，%logger{36}：logger是class的全名,后面的数字代表限制最长的字符，%msg：日志消息，%n换行符-->
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+        <!--滚动策略按照时间滚动-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/rescue-backend.%d.%i.log</fileNamePattern>
-            <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->
-            <maxHistory>90</maxHistory>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- rollover daily 文件名称 -->
+            <fileNamePattern>${FILE_PATH}/output-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--日志文件保留天数-->
+            <maxHistory>30</maxHistory>
+            <!--考虑到性能, 不需要立刻清空打开的日志文件, 可以设置为过一段时间再清空-->
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
+            <!-- 设置文件名中最多包含的数字位数，超过位数会从0重新开始 -->
+            <totalSizeCap>10GB</totalSizeCap>
         </rollingPolicy>
-        <encoder>
-            <pattern>%d %p (%file:%line\)- %m%n</pattern>
-            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
-        </encoder>
     </appender>
 
+    <!-- 按照每天生成错误日志文件 -->
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 此日志文件只记录ERROR级别的 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+        <!--输出日志到目录中的error.log文件中-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${FILE_PATH}/error-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
 
-    <!-- 控制台输出日志级别 -->
-    <root level="info">
-        <appender-ref ref="STDOUT"/>
-    </root>
-    <logger name="springfox.documentation" level="ERROR">
-        <appender-ref ref="syslog"/>
-    </logger>
+    <!--开发环境:打印控制台-->
+    <springProfile name="dev">
+        <root level="INFO">
+            <appender-ref ref="consoleAppender"/>
+            <appender-ref ref="fileAppender"/>
+            <appender-ref ref="errorAppender"/>
+        </root>
+    </springProfile>
+
+    <!--生产环境:输出到文件-->
+    <springProfile name="pro">
+        <root level="INFO">
+            <appender-ref ref="fileAppender"/>
+            <appender-ref ref="errorAppender"/>
+        </root>
+    </springProfile>
 
 </configuration>

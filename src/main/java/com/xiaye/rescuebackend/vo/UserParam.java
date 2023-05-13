@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Optional;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -16,19 +16,19 @@ public class UserParam {
     @NotBlank
     private String phoneNumber;
 
-    @javax.validation.constraints.NotNull
+    @NotNull
     private Long companyId;
 
-    public Boolean isInsert(){
-        return id == null;
+    public static User to(UserParam item) {
+        User result = new User();
+        result.setId(item.getId());
+        result.setUsername(item.getUsername());
+        result.setUserPhone(item.getPhoneNumber());
+        result.setCompanyId(item.getCompanyId());
+        return result;
     }
 
-    public static User to(UserParam item){
-        User result = new User();
-        Optional.ofNullable(item.getId()).ifPresent(result::setId);
-        Optional.ofNullable(item.getUsername()).ifPresent(result::setUsername);
-        Optional.ofNullable(item.getPhoneNumber()).ifPresent(result::setUserPhone);
-        Optional.of(item.getCompanyId()).ifPresent(result::setCompanyId);
-        return result;
+    public Boolean isInsert() {
+        return id == null || id <= 0;
     }
 }

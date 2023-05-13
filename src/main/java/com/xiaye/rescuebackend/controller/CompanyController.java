@@ -2,15 +2,20 @@ package com.xiaye.rescuebackend.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaye.rescuebackend.model.Company;
+import com.xiaye.rescuebackend.model.CreditRecord;
 import com.xiaye.rescuebackend.service.CompanyService;
+import com.xiaye.rescuebackend.service.CreditRecordService;
+import com.xiaye.rescuebackend.types.CreditRecordStateEnum;
+import com.xiaye.rescuebackend.types.ResultCodeEnum;
+import com.xiaye.rescuebackend.vo.CompanyParam;
 import com.xiaye.rescuebackend.vo.PageParam;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -18,35 +23,75 @@ import javax.validation.constraints.NotNull;
 @Tag(name = "公司管理")
 public class CompanyController {
     private final CompanyService companyService;
+    private final CreditRecordService creditRecordService;
 
     @Autowired
-    public CompanyController(CompanyService companyService) {
+    public CompanyController(CompanyService companyService, CreditRecordService creditRecordService) {
         this.companyService = companyService;
+        this.creditRecordService = creditRecordService;
     }
 
     @Operation(summary = "分页获取已注册公司列表")
     @PostMapping("/list")
-    public ResultVo<Object> listCompanies(@Valid @RequestBody PageParam param){
+    public ResultVo listCompanies(@RequestBody @Validated PageParam param) {
         Page<Company> companyPage = companyService.page(PageParam.to(param));
         return ResultVo.success(companyPage);
     }
 
-    @Operation(summary = "获取公司详情信息",description = "通过公司id")
+    @Operation(summary = "获取公司详情信息", description = "通过公司id")
     @PostMapping("/get")
-    public ResultVo<Object> getCompany(@Valid @NotNull  Long id){
+    public ResultVo getCompany(@RequestParam(name = "id", required = true) @NotNull Long id) {
         Company company = companyService.getById(id);
         return ResultVo.success(company);
     }
 
-    @Operation(summary = "删除公司",description = "通过公司id，同时删除所有与该公司相关的信息")
+    @Operation(summary = "删除公司", description = "通过公司id，同时删除所有与该公司相关的信息")
     @DeleteMapping("/delete")
-    public ResultVo<Object> deleteCompany(@Valid @NotNull Long id){
-        return ResultVo.builder().build();
+    public ResultVo deleteCompany(@RequestParam(name = "id", required = true) @NotNull Long id) {
+        Boolean result = companyService.removeById(id);
+        if (!result) {
+            return ResultVo.failure(ResultCodeEnum.RESULT_DATA_NONE);
+        }
+        return ResultVo.success();
     }
 
-    @Operation(summary = "更新或插入公司信息",description = "更新或者插入公司")
+    @Operation(summary = "更新或插入公司信息", description = "更新或者插入公司")
     @PutMapping("/updateOrSave")
-    public ResultVo<Object> updateCompany(){
-        return ResultVo.builder().build();
+    public ResultVo updateCompany(@RequestBody @Validated CompanyParam companyParam) {
+        if (companyParam.isInsert()) {
+            companyService.save(CompanyParam.convertToCompany(companyParam));
+            return ResultVo.success("插入公司信息成功");
+        }
+        companyService.updateById(CompanyParam.convertToCompany(companyParam));
+        return ResultVo.success();
+    }
+
+    @PutMapping(value = {"/modify", "/credit"})
+    @Operation(summary = "修改公司的信用值")
+    public ResultVo modifyCompanyCredit(@RequestBody @NotNull Long id,
+                                        @RequestBody @NotNull Long credit,
+                                        @RequestBody @NotNull String message) {
+
+        //根据id获取原有的内容
+        Company company = companyService.getById(id);
+        Long oldCredit = company.getCredit();
+
+        company.setCredit(credit);
+        if (!companyService.saveOrUpdate(company)) {
+            return ResultVo.failure();
+        }
+
+        //信用变更记录表开始记录
+        CreditRecord creditRecord = new CreditRecord();
+
+        creditRecord.setCompanyId(company.getId());
+        creditRecord.setCreditPre(oldCredit);
+        creditRecord.setCreditNext(credit);
+        creditRecord.setState(oldCredit - credit > 0 ? CreditRecordStateEnum.REDUCE : CreditRecordStateEnum.ADDITION);
+        creditRecord.setMessage(message);
+        if (!creditRecordService.save(creditRecord)) {
+            return ResultVo.failure();
+        }
+        return ResultVo.success();
     }
 }

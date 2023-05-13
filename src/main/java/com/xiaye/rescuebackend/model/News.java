@@ -1,12 +1,13 @@
 package com.xiaye.rescuebackend.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.xiaye.rescuebackend.types.NewsTypeEnum;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import lombok.Data;
 
 /**
  * 行政信息
@@ -56,7 +57,7 @@ public class News implements Serializable {
      * 信息类型（消防信息。行政信息）
      */
     @TableField(value = "type")
-    private Long type;
+    private NewsTypeEnum type;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

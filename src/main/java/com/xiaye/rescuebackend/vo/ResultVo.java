@@ -1,70 +1,86 @@
 package com.xiaye.rescuebackend.vo;
 
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
+import java.io.Serializable;
 
 
 /**
- * 返回类型包装类
+ * @author zhenyu
+ * @date 2023/4/01
  */
 @Data
-@Slf4j
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ResultVo<T> {
-    /**
-     * 返回的代码
-     */
+public class ResultVo implements Serializable {
+
+    private static final long serialVersionUID = -3948389268046368059L;
+
     private Integer code;
 
-    /**
-     * 消息
-     */
-    private String message;
+    private String msg;
 
-    /**
-     * 返回的数据
-     */
-    private T data;
+    private Object data;
 
-    /**
-     * 默认传入值，code和message以及data
-     * @param data 需要返回的数据
-     */
-    public ResultVo(T data){
-        this.code = 0;
-        this.message = "";
+    public ResultVo() {
+    }
+
+    public ResultVo(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public ResultVo(Integer code, String msg, Object data) {
+        this.code = code;
+        this.msg = msg;
         this.data = data;
     }
 
-    /**
-     * 常见成功返回消息封装类
-     * @param data 需要返回的数据
-     * @param <T> 数据的类型
-     * @return 封装后的结果
-     */
-    public static <T> ResultVo<T> success (T data){
-        return new ResultVo<>(ResultCodeEnum.SUCCEED.code(), ResultCodeEnum.SUCCEED.message(), data);
+
+    public static ResultVo success() {
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResultCodeEnum(ResultCodeEnum.SUCCESS);
+        return resultVo;
     }
 
-    /**
-     * 常见错误信息返回封装类型
-     * @param data
-     * @param <T>
-     * @return
-     */
-    public static <T> ResultVo<T> error(T data) {
-        return new ResultVo<>(ResultCodeEnum.ERROR.code(), ResultCodeEnum.ERROR.message(), data);
+
+    public static ResultVo success(String message) {
+        ResultVo resultVo = new ResultVo();
+        resultVo.setCode(ResultCodeEnum.SUCCESS.code());
+        resultVo.setMsg(message);
+        return resultVo;
     }
 
-    public ResultVo<T> of(ResultCodeEnum resultCodeEnum){
-        this.code = resultCodeEnum.code();
-        this.message = resultCodeEnum.message();
-        return this;
+    public static ResultVo success(Object data) {
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResultCodeEnum(ResultCodeEnum.SUCCESS);
+        resultVo.setData(data);
+        return resultVo;
+    }
+
+    public static ResultVo failure() {
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResultCodeEnum(ResultCodeEnum.SPECIFIED_QUESTIONED_USER_NOT_EXIST);
+        return resultVo;
+    }
+
+    public static ResultVo failure(ResultCodeEnum resultCode) {
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResultCodeEnum(resultCode);
+        return resultVo;
+    }
+
+    public static ResultVo failure(ResultCodeEnum resultCode, Object data) {
+        ResultVo resultVo = new ResultVo();
+        resultVo.setResultCodeEnum(resultCode);
+        resultVo.setData(data);
+        return resultVo;
+    }
+
+    public void setResultCodeEnum(ResultCodeEnum code) {
+        this.code = code.code();
+        this.msg = code.message();
     }
 }
+ 

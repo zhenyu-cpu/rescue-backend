@@ -1,7 +1,6 @@
 package com.xiaye.rescuebackend.service.impl;
 
 import cn.dev33.satoken.stp.StpInterface;
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.ListUtil;
 import com.xiaye.rescuebackend.model.User;
 import com.xiaye.rescuebackend.service.UserService;
@@ -34,7 +33,6 @@ public class StpInterfaceImpl implements StpInterface {
         //因为loginId是用户id
         Long useId = Long.parseLong(String.valueOf(loginId));
         User user = userService.getById(useId);
-
-        return ListUtil.toList(user.getRole());
+        return ListUtil.toList(user.getRole().getRoleName());
     }
 }

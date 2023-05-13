@@ -3,6 +3,7 @@ package com.xiaye.rescuebackend.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaye.rescuebackend.model.User;
+import com.xiaye.rescuebackend.types.RoleNameEnum;
 import com.xiaye.rescuebackend.vo.UserInfoVo;
 
 /**
@@ -46,7 +47,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param roleName
      * @return
      */
-    Page<UserInfoVo> pageUserInfoVoByUserRole(Page<UserInfoVo> page,String roleName);
+    Page<UserInfoVo> pageUserInfoVoByUserRole(Page<UserInfoVo> page, RoleNameEnum roleName);
 
     /**
      * 根据公司id，分页查询用户信息
@@ -63,4 +64,11 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     int deleteByIdForDifferentRole(Long id,String roleName);
+
+
+    /**
+     * 审核公司管理员用户的用户权限控制，对于
+     */
+
+
 }
