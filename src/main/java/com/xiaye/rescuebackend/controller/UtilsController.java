@@ -2,12 +2,11 @@ package com.xiaye.rescuebackend.controller;
 
 
 import cn.hutool.core.util.CreditCodeUtil;
+import com.xiaye.rescuebackend.types.ServeStateEnum;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/utils")
@@ -19,5 +18,11 @@ public class UtilsController {
         ResultVo result = ResultVo.success();
         result.setData(CreditCodeUtil.randomCreditCode());
         return result;
+    }
+
+    @Operation(summary = "测试接口")
+    @PostMapping("/test")
+    public ResultVo test(@RequestParam ServeStateEnum state) {
+        return ResultVo.success(state);
     }
 }

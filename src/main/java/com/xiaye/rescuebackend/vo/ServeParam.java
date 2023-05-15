@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * @className: ServeParam
@@ -47,12 +48,9 @@ public class ServeParam {
         result.setServeLocation(item.getServeLocation());
         result.setDouserName(item.getDoUserName());
         result.setDouserPhone(item.getDoUserPhone());
-        result.setState(item.getState());
-        if (ObjectUtil.isNull(item.getCreateTime())) {
-            result.setCreateTime(LocalDateTime.now());
-        }
-        result.setCreateTime(item.getCreateTime());
-        if (ObjectUtil.isNull(item.getRejectMessage())) {
+        result.setState(Optional.ofNullable(item.getState()).orElse(ServeStateEnum.RESERVED));
+        result.setCreateTime(Optional.ofNullable(item.getCreateTime()).orElse(LocalDateTime.now()));
+        if (!ObjectUtil.isNull(item.getRejectMessage()) && ServeStateEnum.REJECTED.equals(item.getState())) {
             result.setRejectMessage(item.getRejectMessage());
         }
         return result;
