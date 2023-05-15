@@ -11,7 +11,7 @@ RUN rm -f /etc/localtime \
 COPY ./target/$PROJECT_NAME-$PROJECT_VERSION.jar /work/app.jar
 
 # 容器启动时执行的命令，这里可加jvm参数
-ENTRYPOINT ["nohup","java","-jar","/work/app.jar","&"]
+ENTRYPOINT ["nohup","java","-jar","/work/app.jar","--spring.profiles.active=prod","&"]
 
 # 开放端口，根据自己的配置进行开放
 EXPOSE $PORT

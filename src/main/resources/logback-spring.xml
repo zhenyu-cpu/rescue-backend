@@ -74,6 +74,7 @@
     <!--生产环境:输出到文件-->
     <springProfile name="pro">
         <root level="INFO">
+            <appender-ref ref="consoleAppender"/>
             <appender-ref ref="fileAppender"/>
             <appender-ref ref="errorAppender"/>
         </root>
