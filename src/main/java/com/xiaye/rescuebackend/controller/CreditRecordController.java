@@ -62,8 +62,8 @@ public class CreditRecordController {
         return ResultVo.success("更新信用记录");
     }
 
-    @PostMapping("/companyRecords")
     @Operation(summary = "获取公司的所有信用记录表")
+    @PostMapping("/companyRecords")
     public ResultVo companyCreditRecord(@RequestBody @NotNull Long companyId,
                                         @RequestBody @Validated PageParam pageParam) {
         //QueryChainWrapper<CreditRecord> queryChainWrapper = creditRecordService.query();

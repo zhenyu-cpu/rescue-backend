@@ -71,6 +71,13 @@ public class ResultVo implements Serializable {
         return resultVo;
     }
 
+    public static ResultVo failure(Integer code, String message) {
+        ResultVo resultVo = new ResultVo();
+        resultVo.setCode(code);
+        resultVo.setMsg(message);
+        return resultVo;
+    }
+
     public static ResultVo failure(ResultCodeEnum resultCode, Object data) {
         ResultVo resultVo = new ResultVo();
         resultVo.setResultCodeEnum(resultCode);

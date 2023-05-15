@@ -17,12 +17,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/auth/register")//释放注册接口
                 .excludePathPatterns("/favicon.ico")
                 .excludePathPatterns("/utils/**")//释放工具接口
-                .excludePathPatterns("/**/doc.*",
+                .excludePathPatterns(
+                        "/**/doc.*",
                         "/**/swagger-ui.**",
                         "/**/swagger-ui/**",
                         "/**/swagger-resources",
                         "/**/webjars/**",
                         "/**/v3/api-docs/**");//释放api文档调试端口
-
     }
 }

@@ -3,6 +3,7 @@ package com.xiaye.rescuebackend.handler;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotRoleException;
 import com.xiaye.rescuebackend.exception.AuthException;
+import com.xiaye.rescuebackend.exception.BaseException;
 import com.xiaye.rescuebackend.exception.ParamExceptions;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import com.xiaye.rescuebackend.vo.ResultVo;
@@ -58,7 +59,7 @@ public class GlobalExceptionHandler {
      * @param methodArgumentNotValidException
      * @return
      */
-    @ExceptionHandler(value = {MethodArgumentNotValidException.class,IllegalArgumentException.class})
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class, IllegalArgumentException.class})
     public ResultVo paramExceptionHandler(MethodArgumentNotValidException methodArgumentNotValidException) {
         return ResultVo.failure(ResultCodeEnum.PARAM_IS_INVALID, methodArgumentNotValidException.getMessage());
     }
@@ -71,6 +72,12 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = {NotLoginException.class, NotRoleException.class})
     public ResultVo notLoginExceptionHandler(NotLoginException notLoginException) {
+        notLoginException.printStackTrace();
         return ResultVo.failure(ResultCodeEnum.PERMISSION_NO_ACCESS, notLoginException.getMessage());
+    }
+
+    @ExceptionHandler(value = {BaseException.class})
+    public ResultVo baseExceptionHandler(BaseException baseException) {
+        return ResultVo.failure(baseException.getCode(), baseException.getMessage());
     }
 }
