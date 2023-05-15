@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 @Slf4j
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
     /**
@@ -76,6 +78,12 @@ public class GlobalExceptionHandler {
         return ResultVo.failure(ResultCodeEnum.PERMISSION_NO_ACCESS, notLoginException.getMessage());
     }
 
+    /**
+     * 其他登陆异常
+     *
+     * @param baseException
+     * @return
+     */
     @ExceptionHandler(value = {BaseException.class})
     public ResultVo baseExceptionHandler(BaseException baseException) {
         return ResultVo.failure(baseException.getCode(), baseException.getMessage());

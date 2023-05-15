@@ -1,7 +1,6 @@
 package com.xiaye.rescuebackend.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -31,8 +30,8 @@ public class JacksonConfig {
             builder.serializationInclusion(JsonInclude.Include.NON_NULL);
             // 配置Jackson在序列化时忽略集合为空的属性
             builder.serializationInclusion(JsonInclude.Include.NON_EMPTY);
-            // 配置Jackson在序列化时将驼峰命名转为下划线命名
-            builder.propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+//            // 配置Jackson在序列化时将驼峰命名转为下划线命名
+//            builder.propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
             // 配置Jackson在序列化时不包含为false的属性值
             builder.serializationInclusion(JsonInclude.Include.NON_DEFAULT);
             // 配置Jackson在序列化时不包含为空的集合属性值
