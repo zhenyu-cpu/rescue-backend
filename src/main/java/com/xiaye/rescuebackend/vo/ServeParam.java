@@ -1,7 +1,9 @@
 package com.xiaye.rescuebackend.vo;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.xiaye.rescuebackend.model.Serve;
 import com.xiaye.rescuebackend.types.ServeStateEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(name = "消防服务预约请求体")
 public class ServeParam {
     private Long id;
 
@@ -45,8 +48,13 @@ public class ServeParam {
         result.setDouserName(item.getDoUserName());
         result.setDouserPhone(item.getDoUserPhone());
         result.setState(item.getState());
+        if (ObjectUtil.isNull(item.getCreateTime())) {
+            result.setCreateTime(LocalDateTime.now());
+        }
         result.setCreateTime(item.getCreateTime());
-        result.setRejectMessage(item.getRejectMessage());
+        if (ObjectUtil.isNull(item.getRejectMessage())) {
+            result.setRejectMessage(item.getRejectMessage());
+        }
         return result;
     }
 

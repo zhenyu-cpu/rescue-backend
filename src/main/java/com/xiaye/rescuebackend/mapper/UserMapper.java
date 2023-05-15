@@ -69,6 +69,4 @@ public interface UserMapper extends BaseMapper<User> {
     /**
      * 审核公司管理员用户的用户权限控制，对于
      */
-
-
 }

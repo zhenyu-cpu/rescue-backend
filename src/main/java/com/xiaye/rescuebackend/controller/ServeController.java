@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mysql.cj.util.StringUtils;
 import com.xiaye.rescuebackend.model.Serve;
 import com.xiaye.rescuebackend.service.ServeService;
-import com.xiaye.rescuebackend.service.UserService;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import com.xiaye.rescuebackend.types.ServeStateEnum;
 import com.xiaye.rescuebackend.vo.PageParam;
@@ -25,12 +24,10 @@ import javax.validation.constraints.NotNull;
 @Tag(name = "消防服务预约管理")
 public class ServeController {
     private final ServeService serveService;
-    private final UserService userService;
 
     @Autowired
-    public ServeController(ServeService serveService, UserService userService) {
+    public ServeController(ServeService serveService) {
         this.serveService = serveService;
-        this.userService = userService;
     }
 
     @Operation(summary = "分页获取消防服务预约列表")
@@ -74,7 +71,8 @@ public class ServeController {
                                   @RequestBody @Validated PageParam pageParam) {
         //QueryChainWrapper<Serve> queryChainWrapper = serveService.query();
         LambdaQueryChainWrapper<Serve> queryChainWrapper = serveService.lambdaQuery();
-        Page<Serve> page = serveService.page(PageParam.to(pageParam), queryChainWrapper.eq(Serve::getCompanyId, companyId));
+        queryChainWrapper.eq(Serve::getCompanyId, companyId);
+        Page<Serve> page = queryChainWrapper.page(PageParam.to(pageParam));
         return ResultVo.success(page);
     }
 
@@ -86,10 +84,10 @@ public class ServeController {
 
         Serve serve = serveService.getById(id);
         serve.setState(state);
-        if (!StringUtils.isNullOrEmpty(rejMessage)&& ServeStateEnum.REJECTED.equals(state)) {
+        if (!StringUtils.isNullOrEmpty(rejMessage) && ServeStateEnum.REJECTED.equals(state)) {
             serve.setRejectMessage(rejMessage);
         }
-        if (!serveService.save(serve)){
+        if (!serveService.save(serve)) {
             return ResultVo.failure();
         }
         return ResultVo.success();

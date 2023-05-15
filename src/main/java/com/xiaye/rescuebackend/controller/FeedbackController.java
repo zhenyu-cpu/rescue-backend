@@ -1,7 +1,6 @@
 package com.xiaye.rescuebackend.controller;
 
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaye.rescuebackend.model.Feedback;
 import com.xiaye.rescuebackend.service.FeedbackService;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
@@ -68,7 +67,7 @@ public class FeedbackController {
     @PostMapping("/list")
     public ResultVo list(@Valid @RequestBody PageParam param) {
         LambdaQueryChainWrapper<Feedback> queryChainWrapper = feedbackService.lambdaQuery();
-        Page<Feedback> feedbackPage = feedbackService.page(PageParam.to(param), queryChainWrapper.orderByDesc(Feedback::getCreateTime));
-        return ResultVo.success(feedbackPage);
+        queryChainWrapper.orderByDesc(Feedback::getCreateTime);
+        return ResultVo.success(queryChainWrapper.page(PageParam.to(param)));
     }
 }

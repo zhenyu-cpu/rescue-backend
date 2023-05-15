@@ -1,5 +1,6 @@
 package com.xiaye.rescuebackend.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaye.rescuebackend.model.Company;
 
@@ -18,8 +19,11 @@ public interface CompanyService extends IService<Company> {
 
     /**
      * 通过公司信用号码去查询公司是否以及注册
+     *
      * @param companyCode 公司实体码
      * @return 是否存在
      */
     Boolean exitCompanyByCompanyCode(String companyCode);
+
+    Page<Company> pageCertifiedCompany(Page<Company> page);
 }

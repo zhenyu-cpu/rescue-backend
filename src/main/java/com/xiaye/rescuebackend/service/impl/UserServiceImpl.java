@@ -133,4 +133,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryChainWrapper.eq(User::getCompanyId, companyId);
         return this.list(queryChainWrapper);
     }
+
 }

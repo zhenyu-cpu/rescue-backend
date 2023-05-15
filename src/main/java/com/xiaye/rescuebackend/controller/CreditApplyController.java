@@ -85,7 +85,8 @@ public class CreditApplyController {
     public ResultVo getByCompanyId(@RequestBody @NotNull Long companyId,
                                    @RequestBody @Validated PageParam pageParam) {
         LambdaQueryChainWrapper<CreditApply> queryChainWrapper = creditApplyService.lambdaQuery();
-        Page<CreditApply> page = creditApplyService.page(PageParam.to(pageParam), queryChainWrapper.eq(CreditApply::getCompanyId, companyId));
+        queryChainWrapper.eq(CreditApply::getCompanyId, companyId);
+        Page<CreditApply> page = queryChainWrapper.page(PageParam.to(pageParam));
         return ResultVo.success(page);
     }
 
@@ -108,7 +109,7 @@ public class CreditApplyController {
         updateChainWrapper.set(CreditApply::getApplyuserPhone, user.getUserPhone());
         updateChainWrapper.set(CreditApply::getApplyTime, LocalDateTime.now());
         updateChainWrapper.eq(CreditApply::getId, id);
-        if (!creditApplyService.update(updateChainWrapper)) {
+        if (!updateChainWrapper.update()) {
             return ResultVo.failure();
         }
         //在公司表中修改信息

@@ -1,7 +1,9 @@
 package com.xiaye.rescuebackend.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xiaye.rescuebackend.model.User;
 import com.xiaye.rescuebackend.service.UserService;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import com.xiaye.rescuebackend.types.RoleNameEnum;
@@ -12,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -92,5 +95,12 @@ public class UserController {
             return ResultVo.success();
         }
         return ResultVo.failure();
+    }
+
+    @Operation(summary = "待审核用户分页")
+    public ResultVo preAuditUser(@RequestBody @Validated PageParam pageParam) {
+        LambdaQueryChainWrapper<User> lambdaQueryChainWrapper = userService.lambdaQuery();
+        lambdaQueryChainWrapper.clear();
+        return ResultVo.success();
     }
 }

@@ -68,7 +68,8 @@ public class CreditRecordController {
                                         @RequestBody @Validated PageParam pageParam) {
         //QueryChainWrapper<CreditRecord> queryChainWrapper = creditRecordService.query();
         LambdaQueryChainWrapper<CreditRecord> queryChainWrapper = creditRecordService.lambdaQuery();
-        Page<CreditRecord> page = creditRecordService.page(PageParam.to(pageParam), queryChainWrapper.eq(CreditRecord::getCompanyId, companyId));
+        queryChainWrapper.eq(CreditRecord::getCompanyId, companyId);
+        Page<CreditRecord> page = queryChainWrapper.page(PageParam.to(pageParam));
         return ResultVo.success(page);
     }
 }

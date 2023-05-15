@@ -48,7 +48,7 @@
         from user as U,
              company as C
         where role = #{roleName}
-          and U.company_id = C.id;
+          and U.company_id = C.id
     </select>
     <select id="pageUserInfoVoByCompanyId" resultType="com.xiaye.rescuebackend.vo.UserInfoVo">
         select U.id         as "id",
@@ -60,7 +60,7 @@
         from user as U,
              company as C
         where U.id = #{companyId}
-          and U.company_id = C.id;
+          and U.company_id = C.id
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

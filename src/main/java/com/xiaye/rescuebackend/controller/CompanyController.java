@@ -1,6 +1,5 @@
 package com.xiaye.rescuebackend.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaye.rescuebackend.model.Company;
 import com.xiaye.rescuebackend.model.CreditRecord;
 import com.xiaye.rescuebackend.service.CompanyService;
@@ -11,6 +10,8 @@ import com.xiaye.rescuebackend.vo.CompanyParam;
 import com.xiaye.rescuebackend.vo.PageParam;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,10 +33,15 @@ public class CompanyController {
     }
 
     @Operation(summary = "分页获取已注册公司列表")
+    @Parameters({
+            @Parameter(name = "enableAll", description = "是否查询是所有公司，包含未能通过审核的公司", required = true)
+    })
     @PostMapping("/list")
-    public ResultVo listCompanies(@RequestBody @Validated PageParam param) {
-        Page<Company> companyPage = companyService.page(PageParam.to(param));
-        return ResultVo.success(companyPage);
+    public ResultVo listCompanies(@RequestBody @Validated PageParam param, @RequestBody @NotNull Boolean enableAll) {
+        if (enableAll) {
+            return ResultVo.success(companyService.page(PageParam.to(param)));
+        }
+        return ResultVo.success(companyService.pageCertifiedCompany(PageParam.to(param)));
     }
 
     @Operation(summary = "获取公司详情信息", description = "通过公司id")

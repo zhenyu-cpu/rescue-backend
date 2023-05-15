@@ -29,6 +29,16 @@
         <include refid="Base_Column_List"/>
         from company where code = #{code};
     </select>
+    <select id="selectPageCertifiedCompany" resultType="com.xiaye.rescuebackend.model.Company">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM COMPANY C WHERE C.id = (
+        SELECT
+        DISTINCT
+        U.company_id
+        FROM USER U WHERE U.approved = 1;
+        )
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete

@@ -76,11 +76,12 @@ public class NewsController {
     @Operation(summary = "阅读用户所有未读新闻")
     public ResultVo readAllNews() {
         Long userId = StpUtil.getLoginIdAsLong();
+        LambdaQueryChainWrapper<UserNews> lambdaQueryChainWrapper = newsReadService.lambdaQuery();
         UpdateChainWrapper<UserNews> updateWrapper = newsReadService.update();
         updateWrapper.set("read_flag", 1)
                 .eq("user_id", userId)
                 .eq("read_flag", 0);
-        if (newsReadService.update(updateWrapper)) {
+        if (updateWrapper.update()) {
             return ResultVo.success("新闻一键阅读完成");
         }
         return ResultVo.failure();
@@ -93,7 +94,7 @@ public class NewsController {
         UpdateChainWrapper<UserNews> updateChainWrapper = newsReadService.update();
         updateChainWrapper.set("read_flag", 1).eq("user_id", userId).eq("news_id", newsId)
                 .eq("read_flag", 0);
-        if (newsReadService.update(updateChainWrapper)) {
+        if (updateChainWrapper.update()) {
             return ResultVo.success("新闻阅读完成");
         }
         return ResultVo.failure();
@@ -107,9 +108,7 @@ public class NewsController {
             return ResultVo.failure();
         }
 
-        LambdaQueryChainWrapper<UserNews> queryChainWrapper = newsReadService.lambdaQuery();
-        queryChainWrapper.eq(UserNews::getId, id);
-        if (!newsReadService.remove(queryChainWrapper)) {
+        if (!newsReadService.removeById(id)) {
             return ResultVo.failure();
         }
         return ResultVo.success();
@@ -122,10 +121,10 @@ public class NewsController {
 
         LambdaQueryChainWrapper<UserNews> queryChainWrapper = newsReadService.lambdaQuery();
         queryChainWrapper.eq(UserNews::getUserId, userId);
-        List<UserNews> userNewsList = newsReadService.list(queryChainWrapper);
+        List<UserNews> userNewsList = queryChainWrapper.list();
         List<Long> newsIdList = userNewsList.stream().map(UserNews::getNewsId).distinct().collect(Collectors.toList());
         LambdaQueryChainWrapper<News> newsLambdaQueryChainWrapper = newsService.lambdaQuery();
         newsLambdaQueryChainWrapper.in(News::getId, newsIdList);
-        return ResultVo.success(newsService.page(PageParam.to(pageParam), newsLambdaQueryChainWrapper));
+        return ResultVo.success(newsLambdaQueryChainWrapper.page(PageParam.to(pageParam)));
     }
 }
