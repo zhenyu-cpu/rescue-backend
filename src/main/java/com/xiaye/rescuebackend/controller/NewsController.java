@@ -38,7 +38,7 @@ public class NewsController {
         this.newsReadService = newsReadService;
     }
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     @Operation(summary = "获取新闻列表")
     public ResultVo list(@RequestBody @Validated PageParam pageParam) {
         Page<News> page = PageParam.to(pageParam);

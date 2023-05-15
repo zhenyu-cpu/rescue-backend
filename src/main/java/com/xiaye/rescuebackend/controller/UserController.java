@@ -7,6 +7,7 @@ import com.xiaye.rescuebackend.model.User;
 import com.xiaye.rescuebackend.service.UserService;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import com.xiaye.rescuebackend.types.RoleNameEnum;
+import com.xiaye.rescuebackend.types.UserApprovedEnum;
 import com.xiaye.rescuebackend.vo.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -100,7 +101,8 @@ public class UserController {
     @Operation(summary = "待审核用户分页")
     public ResultVo preAuditUser(@RequestBody @Validated PageParam pageParam) {
         LambdaQueryChainWrapper<User> lambdaQueryChainWrapper = userService.lambdaQuery();
-        lambdaQueryChainWrapper.clear();
-        return ResultVo.success();
+        lambdaQueryChainWrapper.eq(User::getApproved, UserApprovedEnum.UNAUDITED);
+        lambdaQueryChainWrapper.orderByAsc(User::getCompanyId);
+        return ResultVo.success(lambdaQueryChainWrapper.page(PageParam.to(pageParam)));
     }
 }
