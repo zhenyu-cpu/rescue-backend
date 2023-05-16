@@ -66,7 +66,7 @@ public class ServeController {
     }
 
     @Operation(summary = "公司所有的消防服务预约")
-    @GetMapping("/companyServes")
+    @PostMapping("/companyServes")
     public ResultVo companyServes(@RequestBody @NotNull Long companyId,
                                   @RequestBody @Validated PageParam pageParam) {
         //QueryChainWrapper<Serve> queryChainWrapper = serveService.query();

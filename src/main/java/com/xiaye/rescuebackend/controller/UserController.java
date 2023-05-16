@@ -99,6 +99,7 @@ public class UserController {
     }
 
     @Operation(summary = "待审核用户分页")
+    @PostMapping("/preAudit")
     public ResultVo preAuditUser(@RequestBody @Validated PageParam pageParam) {
         LambdaQueryChainWrapper<User> lambdaQueryChainWrapper = userService.lambdaQuery();
         lambdaQueryChainWrapper.eq(User::getApproved, UserApprovedEnum.UNAUDITED);

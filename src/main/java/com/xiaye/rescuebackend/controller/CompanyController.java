@@ -45,7 +45,7 @@ public class CompanyController {
     }
 
     @Operation(summary = "获取公司详情信息", description = "通过公司id")
-    @PostMapping("/get")
+    @GetMapping("/get")
     public ResultVo getCompany(@RequestParam(name = "id", required = true) @NotNull Long id) {
         Company company = companyService.getById(id);
         return ResultVo.success(company);

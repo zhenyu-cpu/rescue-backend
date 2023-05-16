@@ -61,7 +61,7 @@ public class NewsController {
         return ResultVo.success(newsService.getById(id));
     }
 
-    @GetMapping("/create")
+    @PostMapping("/create")
     @Operation(summary = "创建新闻")
     @SaCheckRole(value = {RoleNameEnum.SYSTEM_ADMIN_ROLE, RoleNameEnum.COMPANY_ADMIN_ROLE}, mode = SaMode.OR)
     public ResultVo createNews(@RequestBody @Validated NewsCreateParam newsCreateParam) {
@@ -114,7 +114,7 @@ public class NewsController {
         return ResultVo.success();
     }
 
-    @GetMapping(value = {"/unread"})
+    @PostMapping(value = {"/unread"})
     @Operation(summary = "获取未读取的新闻")
     public ResultVo unreadNews(@RequestBody @Validated PageParam pageParam) {
         Long userId = StpUtil.getLoginIdAsLong();
