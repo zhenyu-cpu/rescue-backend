@@ -3,6 +3,7 @@ package com.xiaye.rescuebackend.controller;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mysql.cj.util.StringUtils;
+import com.xiaye.rescuebackend.annotation.MultiRequestBody;
 import com.xiaye.rescuebackend.model.Serve;
 import com.xiaye.rescuebackend.service.ServeService;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
@@ -67,27 +68,26 @@ public class ServeController {
 
     @Operation(summary = "公司所有的消防服务预约")
     @PostMapping("/companyServes")
-    public ResultVo companyServes(@RequestBody @NotNull Long companyId,
-                                  @RequestBody @Validated PageParam pageParam) {
-        //QueryChainWrapper<Serve> queryChainWrapper = serveService.query();
+    public ResultVo companyServes(@MultiRequestBody @NotNull String companyId,
+                                  @MultiRequestBody @Validated PageParam pageParam) {
         LambdaQueryChainWrapper<Serve> queryChainWrapper = serveService.lambdaQuery();
-        queryChainWrapper.eq(Serve::getCompanyId, companyId);
+        queryChainWrapper.eq(Serve::getCompanyId, Long.parseLong(companyId));
         Page<Serve> page = queryChainWrapper.page(PageParam.to(pageParam));
         return ResultVo.success(page);
     }
 
     @PutMapping("/approve")
     @Operation(summary = "审批消防服务申请")
-    public ResultVo approveServe(@RequestBody @NotNull Long id,
-                                 @RequestBody @NotNull ServeStateEnum state,
-                                 @RequestBody String rejMessage) {
-
-        Serve serve = serveService.getById(id);
-        serve.setState(state);
-        if (!StringUtils.isNullOrEmpty(rejMessage) && ServeStateEnum.REJECTED.equals(state)) {
+    public ResultVo approveServe(@MultiRequestBody @NotNull String id,
+                                 @MultiRequestBody @NotNull String state,
+                                 @MultiRequestBody String rejMessage) {
+        ServeStateEnum stateEnum = ServeStateEnum.valueOf(state);
+        Serve serve = serveService.getById(Long.parseLong(id));
+        serve.setState(stateEnum);
+        if (!StringUtils.isNullOrEmpty(rejMessage) && ServeStateEnum.REJECTED.equals(stateEnum)) {
             serve.setRejectMessage(rejMessage);
         }
-        if (!serveService.save(serve)) {
+        if (!serveService.updateById(serve)) {
             return ResultVo.failure();
         }
         return ResultVo.success();

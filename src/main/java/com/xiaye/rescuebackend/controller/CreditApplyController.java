@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapp
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mysql.cj.util.StringUtils;
+import com.xiaye.rescuebackend.annotation.MultiRequestBody;
 import com.xiaye.rescuebackend.model.Company;
 import com.xiaye.rescuebackend.model.CreditApply;
 import com.xiaye.rescuebackend.model.User;
@@ -82,10 +83,11 @@ public class CreditApplyController {
 
     @Operation(summary = "获取公司的所有信用申请记录", description = "根据公司id，获取公司的所有信用申请记录")
     @PostMapping("/companyApplies")
-    public ResultVo getByCompanyId(@RequestBody @NotNull Long companyId,
-                                   @RequestBody @Validated PageParam pageParam) {
+    public ResultVo getByCompanyId(@MultiRequestBody @NotNull String companyId,
+                                   @MultiRequestBody @Validated PageParam pageParam) {
+        Long companyIDL = Long.parseLong(companyId);
         LambdaQueryChainWrapper<CreditApply> queryChainWrapper = creditApplyService.lambdaQuery();
-        queryChainWrapper.eq(CreditApply::getCompanyId, companyId);
+        queryChainWrapper.eq(CreditApply::getCompanyId, companyIDL);
         Page<CreditApply> page = queryChainWrapper.page(PageParam.to(pageParam));
         return ResultVo.success(page);
     }
@@ -93,16 +95,17 @@ public class CreditApplyController {
     @PutMapping("/approval")
     @Operation(summary = "审批信用申请记录")
     @SaCheckRole(value = {RoleNameEnum.SYSTEM_ADMIN_ROLE})
-    public ResultVo approvalOfCreditApply(@RequestBody @NotNull Long id,
-                                          @RequestBody @NotNull CreditApplyStateEnum state,
-                                          @RequestBody String rejMessage) {
+    public ResultVo approvalOfCreditApply(@MultiRequestBody @NotNull Long id,
+                                          @MultiRequestBody @NotNull String state,
+                                          @MultiRequestBody String rejMessage) {
+        CreditApplyStateEnum stateEnum = CreditApplyStateEnum.valueOf(state);
         Long userId = StpUtil.getLoginIdAsLong();
         User user = userService.getById(userId);
         //变更审批状态
         LambdaUpdateChainWrapper<CreditApply> updateChainWrapper = creditApplyService.lambdaUpdate();
-        updateChainWrapper.set(CreditApply::getState, state);
+        updateChainWrapper.set(CreditApply::getState, stateEnum);
         //不必要参数校验
-        if (!StringUtils.isNullOrEmpty(rejMessage) && CreditApplyStateEnum.REJECTED.equals(state)) {
+        if (!StringUtils.isNullOrEmpty(rejMessage) && CreditApplyStateEnum.REJECTED.equals(stateEnum)) {
             updateChainWrapper.set(CreditApply::getRejectMessage, rejMessage);
         }
         updateChainWrapper.set(CreditApply::getApplyuserName, user.getUsername());

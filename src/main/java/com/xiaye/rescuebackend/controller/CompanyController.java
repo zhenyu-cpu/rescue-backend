@@ -1,5 +1,6 @@
 package com.xiaye.rescuebackend.controller;
 
+import com.xiaye.rescuebackend.annotation.MultiRequestBody;
 import com.xiaye.rescuebackend.model.Company;
 import com.xiaye.rescuebackend.model.CreditRecord;
 import com.xiaye.rescuebackend.service.CompanyService;
@@ -37,7 +38,8 @@ public class CompanyController {
             @Parameter(name = "enableAll", description = "是否查询是所有公司，包含未能通过审核的公司", required = true)
     })
     @PostMapping("/list")
-    public ResultVo listCompanies(@RequestBody @Validated PageParam param, @RequestBody @NotNull Boolean enableAll) {
+    public ResultVo listCompanies(@MultiRequestBody @Validated PageParam param,
+                                  @MultiRequestBody @NotNull Boolean enableAll) {
         if (enableAll) {
             return ResultVo.success(companyService.page(PageParam.to(param)));
         }
@@ -74,15 +76,15 @@ public class CompanyController {
 
     @PutMapping(value = {"/modify", "/credit"})
     @Operation(summary = "修改公司的信用值")
-    public ResultVo modifyCompanyCredit(@RequestBody @NotNull Long id,
-                                        @RequestBody @NotNull Long credit,
-                                        @RequestBody @NotNull String message) {
+    public ResultVo modifyCompanyCredit(@MultiRequestBody @NotNull String id,
+                                        @MultiRequestBody @NotNull String credit,
+                                        @MultiRequestBody @NotNull String message) {
 
         //根据id获取原有的内容
-        Company company = companyService.getById(id);
+        Company company = companyService.getById(Long.parseLong(id));
         Long oldCredit = company.getCredit();
-
-        company.setCredit(credit);
+        Long creditLong = Long.parseLong(credit);
+        company.setCredit(creditLong);
         if (!companyService.saveOrUpdate(company)) {
             return ResultVo.failure();
         }
@@ -92,8 +94,8 @@ public class CompanyController {
 
         creditRecord.setCompanyId(company.getId());
         creditRecord.setCreditPre(oldCredit);
-        creditRecord.setCreditNext(credit);
-        creditRecord.setState(oldCredit - credit > 0 ? CreditRecordStateEnum.REDUCE : CreditRecordStateEnum.ADDITION);
+        creditRecord.setCreditNext(creditLong);
+        creditRecord.setState(oldCredit - creditLong > 0 ? CreditRecordStateEnum.REDUCE : CreditRecordStateEnum.ADDITION);
         creditRecord.setMessage(message);
         if (!creditRecordService.save(creditRecord)) {
             return ResultVo.failure();

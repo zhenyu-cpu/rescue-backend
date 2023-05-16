@@ -2,7 +2,7 @@ package com.xiaye.rescuebackend.controller;
 
 
 import cn.hutool.core.util.CreditCodeUtil;
-import com.xiaye.rescuebackend.types.ServeStateEnum;
+import com.xiaye.rescuebackend.types.UserApprovedEnum;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +22,7 @@ public class UtilsController {
 
     @Operation(summary = "测试接口")
     @PostMapping("/test")
-    public ResultVo test(@RequestParam ServeStateEnum state) {
-        return ResultVo.success(state);
+    public ResultVo test(@RequestParam UserApprovedEnum approved) {
+        return ResultVo.success(approved);
     }
 }

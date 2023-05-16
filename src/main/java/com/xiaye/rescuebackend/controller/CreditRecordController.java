@@ -3,6 +3,7 @@ package com.xiaye.rescuebackend.controller;
 
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xiaye.rescuebackend.annotation.MultiRequestBody;
 import com.xiaye.rescuebackend.model.CreditRecord;
 import com.xiaye.rescuebackend.service.CreditRecordService;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
@@ -64,11 +65,12 @@ public class CreditRecordController {
 
     @Operation(summary = "获取公司的所有信用记录表")
     @PostMapping("/companyRecords")
-    public ResultVo companyCreditRecord(@RequestBody @NotNull Long companyId,
-                                        @RequestBody @Validated PageParam pageParam) {
+    public ResultVo companyCreditRecord(@MultiRequestBody @NotNull String companyId,
+                                        @MultiRequestBody @Validated PageParam pageParam) {
         //QueryChainWrapper<CreditRecord> queryChainWrapper = creditRecordService.query();
+        Long companyIdL = Long.parseLong(companyId);
         LambdaQueryChainWrapper<CreditRecord> queryChainWrapper = creditRecordService.lambdaQuery();
-        queryChainWrapper.eq(CreditRecord::getCompanyId, companyId);
+        queryChainWrapper.eq(CreditRecord::getCompanyId, companyIdL);
         Page<CreditRecord> page = queryChainWrapper.page(PageParam.to(pageParam));
         return ResultVo.success(page);
     }
