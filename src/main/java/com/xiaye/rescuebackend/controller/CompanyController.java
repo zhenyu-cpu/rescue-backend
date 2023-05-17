@@ -8,6 +8,7 @@ import com.xiaye.rescuebackend.service.CreditRecordService;
 import com.xiaye.rescuebackend.types.CreditRecordStateEnum;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import com.xiaye.rescuebackend.vo.CompanyParam;
+import com.xiaye.rescuebackend.vo.CompanyQueryParam;
 import com.xiaye.rescuebackend.vo.PageParam;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,12 +39,11 @@ public class CompanyController {
             @Parameter(name = "enableAll", description = "是否查询是所有公司，包含未能通过审核的公司", required = true)
     })
     @PostMapping("/list")
-    public ResultVo listCompanies(@MultiRequestBody @Validated PageParam param,
-                                  @MultiRequestBody @NotNull Boolean enableAll) {
-        if (enableAll) {
-            return ResultVo.success(companyService.page(PageParam.to(param)));
+    public ResultVo listCompanies(@RequestBody CompanyQueryParam companyQueryParam) {
+        if (companyQueryParam.getEnableAll()) {
+            return ResultVo.success(companyService.page(PageParam.to(companyQueryParam.getPageParam())));
         }
-        return ResultVo.success(companyService.pageCertifiedCompany(PageParam.to(param)));
+        return ResultVo.success(companyService.pageCertifiedCompany(PageParam.to(companyQueryParam.getPageParam())));
     }
 
     @Operation(summary = "获取公司详情信息", description = "通过公司id")

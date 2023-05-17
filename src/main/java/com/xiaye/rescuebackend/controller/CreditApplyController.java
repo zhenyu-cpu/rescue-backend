@@ -17,6 +17,7 @@ import com.xiaye.rescuebackend.types.CreditApplyStateEnum;
 import com.xiaye.rescuebackend.types.ResultCodeEnum;
 import com.xiaye.rescuebackend.types.RoleNameEnum;
 import com.xiaye.rescuebackend.vo.CreditApplyParam;
+import com.xiaye.rescuebackend.vo.CreditApplyQueryParam;
 import com.xiaye.rescuebackend.vo.PageParam;
 import com.xiaye.rescuebackend.vo.ResultVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -83,12 +84,10 @@ public class CreditApplyController {
 
     @Operation(summary = "获取公司的所有信用申请记录", description = "根据公司id，获取公司的所有信用申请记录")
     @PostMapping("/companyApplies")
-    public ResultVo getByCompanyId(@MultiRequestBody @NotNull String companyId,
-                                   @MultiRequestBody @Validated PageParam pageParam) {
-        Long companyIDL = Long.parseLong(companyId);
+    public ResultVo getByCompanyId(@RequestBody CreditApplyQueryParam queryParam) {
         LambdaQueryChainWrapper<CreditApply> queryChainWrapper = creditApplyService.lambdaQuery();
-        queryChainWrapper.eq(CreditApply::getCompanyId, companyIDL);
-        Page<CreditApply> page = queryChainWrapper.page(PageParam.to(pageParam));
+        queryChainWrapper.eq(CreditApply::getCompanyId, queryParam.getCompanyId());
+        Page<CreditApply> page = queryChainWrapper.page(PageParam.to(queryParam.getPageParam()));
         return ResultVo.success(page);
     }
 
